@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "adfc5a44-81c0-4572-9bf7-13a01e95d753",
+		"name": "GCP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1391042"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch All Employees",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Employee By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700199\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

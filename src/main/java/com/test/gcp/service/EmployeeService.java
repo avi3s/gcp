@@ -8,6 +8,7 @@ import com.test.gcp.payload.EmployeeDTO;
 public interface EmployeeService {
 
 	public static final List<EmployeeDTO> EMPLOYEES = new LinkedList<>();
+	public static final List<EmployeeDTO> ADMINS = new LinkedList<>();
 
 	public EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
 

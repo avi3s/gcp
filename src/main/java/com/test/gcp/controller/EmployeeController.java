@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.test.gcp.payload.EmployeeDTO;
 import com.test.gcp.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employees")
+@PreAuthorize("hasRole('ADMIN')")
+@SecurityRequirement(name = "gcp")
 public class EmployeeController {
 
 	@Autowired
@@ -48,8 +52,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<String> deleteComment(@PathVariable(value = "employeeId") String employeeId){
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "employeeId") String employeeId){
     	employeeService.deleteEmployee(employeeId);
-        return new ResponseEntity<>("Comment deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
     }
 }
