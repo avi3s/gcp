@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.test.gcp.payload.EmployeeDTO;
+import com.test.gcp.exception.ResourceFoundException;
+import com.test.gcp.payload.AdminDTO;
 import com.test.gcp.payload.JWTAuthResponse;
+import com.test.gcp.payload.LoginDTO;
 import com.test.gcp.security.JwtTokenProvider;
 import com.test.gcp.service.EmployeeService;
-import com.test.gcp.service.impl.EmployeeServiceImpl;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -40,32 +43,26 @@ public class AuthController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody EmployeeDTO loginDto){
+    public ResponseEntity<JWTAuthResponse> loginAdmin(@Valid @RequestBody LoginDTO loginDto){
     	
-    	LOGGER.log(Level.INFO, () -> "authenticateUser method starts ===>>> "+ loginDto);
+    	LOGGER.log(Level.INFO, () -> "loginAdmin method starts ===>>> "+ loginDto);
     	
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword()));
-
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // get token form tokenProvider
         String token = tokenProvider.generateToken(authentication);
 
-        LOGGER.log(Level.INFO, () -> "authenticateUser method ends ===>>> "+ token);
+        LOGGER.log(Level.INFO, () -> "loginAdmin method ends ===>>> "+ token);
         
         return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@RequestBody EmployeeDTO signUpDto){
+    public ResponseEntity<String> registerAdmin(@Valid @RequestBody AdminDTO signUpDto){
 
-    	LOGGER.log(Level.INFO, () -> "registerUser method starts ===>>> "+ signUpDto);
-    	
-        // add check for email exists in DB
-    	Optional<EmployeeDTO> employeeDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(signUpDto.getEmail())).findFirst();
-		if(employeeDTO.isPresent()) {
-			return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+    	LOGGER.log(Level.INFO, () -> "registerAdmin method starts ===>>> "+ signUpDto);
+    	Optional<AdminDTO> adminDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(signUpDto.getEmail())).findFirst();
+		if(adminDTO.isPresent()) {
+			throw new ResourceFoundException("Email", signUpDto.getEmail());
 		}
 		
 		String emplyeeId = String.valueOf(EmployeeService.ADMINS.size() + 1);
@@ -73,8 +70,8 @@ public class AuthController {
 		signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 		EmployeeService.ADMINS.add(signUpDto);
 		
-		LOGGER.log(Level.INFO, () -> "registerUser method ends ===>>> "+ signUpDto);
+		LOGGER.log(Level.INFO, () -> "registerAdmin method ends ===>>> "+ signUpDto);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
     }
 }

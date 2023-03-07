@@ -1,57 +1,85 @@
 package com.test.gcp.exception;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.test.gcp.payload.ErrorDetails;
 
-@ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-	// handle specific exceptions
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
-			WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+	public ErrorDetails handleResourceNotFoundException(ResourceNotFoundException exception) {
+		
+		ErrorDetails errorDetails = new ErrorDetails();
+		errorDetails.setTimestamp(getCurrentDateTime());
+		errorDetails.setErrorMessage(exception.getMessage());
+		return errorDetails;
+	}
+	
+	@ResponseStatus(HttpStatus.CONFLICT)
+	@ExceptionHandler(ResourceFoundException.class)
+	public ErrorDetails handleResourceFoundException(ResourceFoundException exception) {
+		
+		ErrorDetails errorDetails = new ErrorDetails();
+		errorDetails.setTimestamp(getCurrentDateTime());
+		errorDetails.setErrorMessage(exception.getMessage());
+		return errorDetails;
 	}
 
+	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ExceptionHandler(BlogAPIException.class)
-	public ResponseEntity<ErrorDetails> handleBlogAPIException(BlogAPIException exception, WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	public ErrorDetails handleBlogAPIException(BlogAPIException exception) {
+		
+		ErrorDetails errorDetails = new ErrorDetails();
+		errorDetails.setTimestamp(getCurrentDateTime());
+		errorDetails.setErrorMessage(exception.getMessage());
+		return errorDetails;
 	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public List<ErrorDetails> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
-	// global exceptions
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception, WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+        List<ErrorDetails> errorDetails = new ArrayList<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+        	ErrorDetails errorDetail = new ErrorDetails();
+        	errorDetail.setTimestamp(getCurrentDateTime());
+        	errorDetail.setErrorMessage(error.getDefaultMessage());
+        	errorDetail.setFieldName(((FieldError) error).getField());
+        	errorDetails.add(errorDetail);
+        });
+        return errorDetails;
+    }
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public Object handleAnyException(Exception e) {
 
-	public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
-		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String message = error.getDefaultMessage();
-			errors.put(fieldName, message);
-		});
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", getCurrentDateTime());
+        body.put("message", e.getLocalizedMessage());
 
-		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-	}
+        return body;
+    }
+	
+	private static String getCurrentDateTime() {
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        return dateFormat.format(cal.getTime());
+    }
 }

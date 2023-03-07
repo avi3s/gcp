@@ -6,21 +6,28 @@ import java.util.Optional;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.test.gcp.exception.ResourceNotFoundException;
 import com.test.gcp.payload.EmployeeDTO;
 import com.test.gcp.service.EmployeeService;
+import com.test.gcp.util.EmployeeValidation;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final Logger LOGGER = LogManager.getLogger(EmployeeServiceImpl.class);
 	
+	@Autowired
+	private EmployeeValidation employeeValidation;
+	
 	@Override
 	public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
 		
 		LOGGER.log(Level.INFO, () -> "createEmployee method starts ===>>> "+ employeeDTO);
 		
+		employeeValidation.validateAddEmployee(employeeDTO);
 		String emplyeeId = String.valueOf(EMPLOYEES.size() + 1);
 		employeeDTO.setEmployeeId(emplyeeId);
 		EMPLOYEES.add(employeeDTO);
@@ -43,6 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<EmployeeDTO> employeeDTO = EMPLOYEES.stream().filter(e -> e.getEmployeeId().equals(employeeId)).findFirst();
 		if(employeeDTO.isPresent()) {
 			presentEmployeeDTO = employeeDTO.get();
+		} else {
+			throw new ResourceNotFoundException("employeeId", employeeId);
 		}
 		LOGGER.log(Level.INFO, "getEmployeesById method ends ===>>> "+ presentEmployeeDTO);
 		return presentEmployeeDTO;
@@ -53,12 +62,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		LOGGER.log(Level.INFO, () -> "updateEmployee method starts ===>>> "+ employeeId);
 		
-		Optional<EmployeeDTO> presentEmployeeDTO = EMPLOYEES.stream().filter(e -> e.getEmployeeId().equals(employeeId)).findFirst();
-		if(presentEmployeeDTO.isPresent()) {
-			EMPLOYEES.remove(presentEmployeeDTO.get());
-			employeeDTO.setEmployeeId(employeeId);
-			EMPLOYEES.add(employeeDTO);
-		}
+		EmployeeDTO employeeDTO2 = employeeValidation.validateUpdateEmployee(employeeDTO, employeeId);
+		EMPLOYEES.remove(employeeDTO2);
+		employeeDTO.setEmployeeId(employeeId);
+		EMPLOYEES.add(employeeDTO);
 		LOGGER.log(Level.INFO, () -> "updateEmployee method ends ===>>> "+ EMPLOYEES);
 		return employeeDTO;
 	}
@@ -71,6 +78,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<EmployeeDTO> employeeDTO = EMPLOYEES.stream().filter(e -> e.getEmployeeId().equals(employeeId)).findFirst();
 		if(employeeDTO.isPresent()) {
 			EMPLOYEES.remove(employeeDTO.get());
+		} else {
+			throw new ResourceNotFoundException("employeeId", employeeId);
 		}
 		LOGGER.log(Level.INFO, () -> "deleteEmployee method ends ===>>> "+ EMPLOYEES);
 	}

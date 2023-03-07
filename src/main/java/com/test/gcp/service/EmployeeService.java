@@ -3,12 +3,13 @@ package com.test.gcp.service;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.test.gcp.payload.AdminDTO;
 import com.test.gcp.payload.EmployeeDTO;
 
 public interface EmployeeService {
 
 	public static final List<EmployeeDTO> EMPLOYEES = new LinkedList<>();
-	public static final List<EmployeeDTO> ADMINS = new LinkedList<>();
+	public static final List<AdminDTO> ADMINS = new LinkedList<>();
 
 	public EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
 

@@ -1,27 +1,15 @@
 package com.test.gcp.payload;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
+
+@Data
+@JsonInclude(Include.NON_NULL)
 public class ErrorDetails {
-    private Date timestamp;
-    private String message;
-    private String details;
-
-    public ErrorDetails(Date timestamp, String message, String details) {
-        this.timestamp = timestamp;
-        this.message = message;
-        this.details = details;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getDetails() {
-        return details;
-    }
+	
+    private String timestamp;
+    private String fieldName;
+	private String errorMessage;
 }

@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public class BlogAPIException extends RuntimeException {
 
-    private HttpStatus status;
+	private static final long serialVersionUID = 4221297461041814952L;
+	private HttpStatus status;
     private String message;
 
     public BlogAPIException(HttpStatus status, String message) {
