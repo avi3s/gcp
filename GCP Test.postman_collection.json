@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "adfc5a44-81c0-4572-9bf7-13a01e95d753",
-		"name": "GCP",
+		"_postman_id": "3af44c19-0273-40eb-ba93-467b884a74a0",
+		"name": "GCP Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1391042"
 	},
@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODIwMDczMCwiZXhwIjoxNjc4ODA1NTMwfQ.10evjQOyWQRYGgM1G2Md7S4wbQ9Z77DnTbGVPG4W_jv419J7NroJocb2XHjQn4WUTvaTZUQvqfo9pE5Sbj0wAg",
 							"type": "string"
 						}
 					]
@@ -83,7 +83,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -247,7 +247,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700199\"\r\n}",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"phoneNumber\": \"7278403639\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700199\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
