@@ -20,4 +20,6 @@ public interface EmployeeService {
 	public EmployeeDTO updateEmployee(String employeeId, EmployeeDTO employeeDTO);
 
 	public void deleteEmployee(String employeeId);
+
+	public List<EmployeeDTO> getEmployeesByDepartmentId(String departmentId);
 }

@@ -31,4 +31,9 @@ public class EmployeeDTO {
 
     @Size(min = 10, message = "{address.null.message}", max = 50)
     private String address;
+    
+    @NotBlank(message = "{departmentId.null.message}")
+    private String departmentId;
+    
+    private String departmentName;
 }
