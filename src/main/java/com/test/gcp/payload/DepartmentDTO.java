@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(Include.NON_NULL)
 public class DepartmentDTO {
 
+	@NotBlank(message = "{departmentId.null.message}")
 	private String departmentId;
 	
     @NotBlank(message = "{departmentname.null.message}")

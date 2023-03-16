@@ -72,6 +72,36 @@ paths:
       security:
         - api_key: []
 
+  /api/employees/bydepartmentid/{departmentId}:
+    get:
+      tags:
+        - employee
+      summary: Fetch All Employees By Department ID
+      description: Fetch All Employees By Department ID
+      operationId: getEmployeesByDepartmentId
+      parameters:
+        - name: departmentId
+          in: path
+          description: ID of Department
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDTO'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Department not found
+      security:
+        - api_key: []
+        
   /api/employees/{employeeId}:                    
     put:
       tags:
@@ -85,8 +115,7 @@ paths:
           description: ID of Employee
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       requestBody:
         description: Update an existent Employee
         content:
@@ -120,8 +149,7 @@ paths:
           description: ID of Employee
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: successful operation
@@ -148,8 +176,7 @@ paths:
           description: ID of Employee
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: successful operation
@@ -163,7 +190,147 @@ paths:
           description: Employee not found
       security:
         - api_key: []
-                    
+ 
+  /api/departments:
+    
+    post:
+      tags:
+        - department
+      summary: Add a Department
+      description: Add a Department
+      operationId: addDepartment
+      requestBody:
+        description: Create a Department
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentDTO'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO' 
+        '401':
+          description: Invalid JWT Token         
+        '405':
+          description: Invalid input
+      security:
+        - api_key: []
+    
+    get:
+      tags:
+        - department
+      summary: Fetch All Departments
+      description: Fetch All Departments
+      operationId: getDepartments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepartmentDTO'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Department not found
+      security:
+        - api_key: []
+
+  /api/departments/{departmentId}:                    
+    put:
+      tags:
+        - department
+      summary: Update an existing Department
+      description: Update an existing Department by Id
+      operationId: updateDepartment
+      parameters:
+        - name: departmentId
+          in: path
+          description: ID of Department
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent Department
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Department not found
+      security:
+        - api_key: []
+    
+    get:
+      tags:
+        - department
+      summary: Finds Department by Id
+      description: Finds Department by Id
+      operationId: getDepartmentsById
+      parameters:
+        - name: departmentId
+          in: path
+          description: ID of Department
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Department not found
+      security:
+        - api_key: []
+    
+    delete:
+      tags:
+        - department
+      summary: Delete Department by Id
+      description: Delete Department by Id
+      operationId: deleteDepartment
+      parameters:
+        - name: departmentId
+          in: path
+          description: ID of Department
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Department not found
+      security:
+        - api_key: []
+                           
   /api/auth/signin:
     post:
       tags:
@@ -229,7 +396,23 @@ components:
         phoneNumber:
           type: string
           example: 7278403639
+        departmentId:
+          type: string
+          example: 1
+        departmentName:
+          type: string
+          example: FS
 
+    DepartmentDTO:
+      type: object
+      properties:
+        departmentId:
+          type: string
+          example: 1
+        departmentName:
+          type: string
+          example: FS
+          
     AdminDTO:
       type: object
       properties:
