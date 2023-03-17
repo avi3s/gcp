@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.Generated;
 
 @Component
+@Generated
 public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, CharSequence> {
 
     private List<String> acceptedValues;

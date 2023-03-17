@@ -10,10 +10,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
+@Generated
 public class EmployeeDTO {
 
 	private String employeeId;

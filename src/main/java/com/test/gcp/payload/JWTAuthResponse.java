@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Generated
 @JsonInclude(Include.NON_NULL)
 public class JWTAuthResponse {
 	

@@ -8,10 +8,12 @@ import com.test.gcp.util.ValueOfEnum;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
+@Generated
 public class Role {
 
 	@NotBlank(message = "{role.name.null.message}")

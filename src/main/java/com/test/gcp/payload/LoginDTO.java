@@ -7,10 +7,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
+@Generated
 public class LoginDTO {
 
     @NotBlank(message = "{password.null.message}")
