@@ -1,14 +1,16 @@
 package com.test.gcp.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,6 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.test.gcp.exception.ResourceFoundException;
 import com.test.gcp.payload.AdminDTO;
 import com.test.gcp.payload.JWTAuthResponse;
 import com.test.gcp.payload.LoginDTO;
@@ -27,11 +30,11 @@ import com.test.gcp.payload.Role;
 import com.test.gcp.security.JwtTokenProvider;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(OrderAnnotation.class)
 class AuthControllerTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
-
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -64,28 +67,32 @@ class AuthControllerTest {
     }
 
 	@Test
+	@Order(1) 
 	void testRegisterAdmin() {
         AdminDTO adminDTO = new AdminDTO();
         adminDTO.setEmail("testuser@test.com");
         adminDTO.setName("Test User");
         adminDTO.setPassword("password");
         adminDTO.setAddress("testaddress");
-        
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         when(passwordEncoder.encode(adminDTO.getPassword())).thenReturn("hashed-password");
-
-        AdminDTO savedUser = new AdminDTO();
-        savedUser.setEmployeeId("1");
-        savedUser.setName(adminDTO.getName());
-        savedUser.setAddress(adminDTO.getAddress());
-        savedUser.setEmail(adminDTO.getEmail());
-        savedUser.setPassword("hashed-password");
-        savedUser.setRoles(Collections.singleton(role));
-
-        ResponseEntity<?> response = authController.registerAdmin(adminDTO);
-
+        ResponseEntity<String> response = authController.registerAdmin(adminDTO);
         assertEquals("Admin registered successfully", response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+	
+	@Test
+	@Order(2) 
+	void testRegisterAdmin_ResourceFoundException() {
+		AdminDTO adminDTO = new AdminDTO();
+        adminDTO.setEmail("testuser@test.com");
+        adminDTO.setName("Test User");
+        adminDTO.setPassword("password");
+        adminDTO.setAddress("testaddress");
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+        Throwable throwable = assertThrows(ResourceFoundException.class, () -> authController.registerAdmin(adminDTO));
+        assertEquals("Email already found with : 'testuser@test.com'", throwable.getMessage());
     }
 }

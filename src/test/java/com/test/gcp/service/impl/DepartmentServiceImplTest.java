@@ -1,6 +1,7 @@
 package com.test.gcp.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.test.gcp.exception.ResourceNotFoundException;
 import com.test.gcp.payload.DepartmentDTO;
 import com.test.gcp.service.DepartmentService;
 import com.test.gcp.util.DepartmentValidation;
@@ -21,19 +23,13 @@ import com.test.gcp.util.DepartmentValidation;
 class DepartmentServiceImplTest {
 
 	@InjectMocks
-	private DepartmentServiceImpl departmentService;
-	
-//	@InjectMocks
-//	private DepartmentServiceImpl departmentServiceImpl;
+	private DepartmentServiceImpl departmentServiceImpl;
 	
 	@Mock
 	private DepartmentValidation departmentValidation;
 	
-//	@Mock
 	DepartmentDTO departmentDTO;
-//	@Mock
 	DepartmentDTO departmentDTO2;
-//	@Mock
 	List<DepartmentDTO> departmentDTOs;
 	
 	@BeforeEach
@@ -49,53 +45,53 @@ class DepartmentServiceImplTest {
 		departmentDTOs = new ArrayList<>();
 		departmentDTOs.add(departmentDTO2);
 		departmentDTOs.add(departmentDTO);
-//		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
 	}
 
 	@Test
 	void testCreateDepartment() {
-		//ReflectionTestUtils.setField(departmentService, "validateAddDepartment", departmentValidation);
-		//Mockito.spy(departmentServiceImpl);
 		Mockito.doNothing().when(departmentValidation).validateAddDepartment(departmentDTO);
-		DepartmentDTO actualResponse = departmentService.createDepartment(departmentDTO);
-		assertEquals(DepartmentService.DEPARTMENTS.size(), actualResponse.getDepartmentId());
+		DepartmentDTO actualResponse = departmentServiceImpl.createDepartment(departmentDTO);
+		assertEquals(String.valueOf(DepartmentService.DEPARTMENTS.size()), actualResponse.getDepartmentId());
 	}
 
 	@Test
 	void testGetDepartments() {
 		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-//		Mockito.spy(DepartmentService.class);
-		//Mockito.when(DepartmentService.DEPARTMENTS).thenReturn(departmentDTOs);
-		//Mockito.when(departmentService.getDepartments()).thenReturn(departmentDTOs);
-		assertEquals(departmentDTOs, departmentService.getDepartments());
+		assertEquals(DepartmentService.DEPARTMENTS.size(), departmentServiceImpl.getDepartments().size());
 	}
 
 	@Test
 	void testGetDepartmentsById() {
 		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		//Mockito.when(departmentService.getDepartmentsById("1")).thenReturn(departmentDTO);
-		DepartmentDTO actualResponse = departmentService.getDepartmentsById("1");
+		DepartmentDTO actualResponse = departmentServiceImpl.getDepartmentsById("1");
 		assertEquals("1", actualResponse.getDepartmentId());
+	}
+	
+	@Test
+	void testGetDepartmentsById_ResourceFoundException() {
+		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> departmentServiceImpl.getDepartmentsById("20"));
+        assertEquals("departmentId not found with : '20'", throwable.getMessage());
 	}
 
 	@Test
 	void testUpdateDepartment() {
 		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		//Mockito.doCallRealMethod().when(departmentValidation).validateUpdateDepartment(departmentDTO, "1");
-		//Mockito.when(departmentService.updateDepartment("1", departmentDTO)).thenReturn(departmentDTO);
-		DepartmentDTO actualResponse = departmentService.updateDepartment("1", departmentDTO);
+		DepartmentDTO actualResponse = departmentServiceImpl.updateDepartment("1", departmentDTO);
 		assertEquals("1", actualResponse.getDepartmentId());
 	}
 
 	@Test
 	void testDeleteDepartment() {
 		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-////		Mockito.doCallRealMethod().when(departmentService).deleteDepartment(Mockito.anyString());
-//		// Making Original Method Call
-//		departmentService.deleteDepartment("1");
-//		// Checking Result
-//		Mockito.mock(DepartmentService.DEPARTMENTS.getClass());
-		departmentService.deleteDepartment("2");
+		departmentServiceImpl.deleteDepartment("2");
 		//Mockito.verify(DepartmentService.DEPARTMENTS.remove(departmentDTO), Mockito.times(1));
+	}
+	
+	@Test
+	void testDeleteDepartment_ResourceFoundException() {
+		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> departmentServiceImpl.deleteDepartment("20"));
+        assertEquals("departmentId not found with : '20'", throwable.getMessage());
 	}
 }

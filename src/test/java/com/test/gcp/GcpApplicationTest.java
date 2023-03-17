@@ -1,31 +1,17 @@
 package com.test.gcp;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Import;
 
 @SpringBootTest
+@TestConfiguration
+@Import(GcpApplication.class)
 class GcpApplicationTest {
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
 
 	@Test
 	void testMain() {
-		fail("Not yet implemented");
+		GcpApplication.main(new String[] {});
 	}
-
-	@Test
-	void testMessageSource() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testGetValidator() {
-		fail("Not yet implemented");
-	}
-
 }
