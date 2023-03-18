@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
   title: GCP Test Application
-  description: |-
-    Spring Boot 3.0.3 Application to test certain functionalities
+  description: Spring Boot 3.0.3 Application to test certain functionalities
   termsOfService: http://swagger.io/terms/
   contact:
     email: avirup.pal@capgemini.com
@@ -22,7 +21,6 @@ tags:
     description: Access to GCP
 paths:
   /api/employees:
-    
     post:
       tags:
         - employee
@@ -42,14 +40,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeDTO' 
+                $ref: '#/components/schemas/EmployeeDTO'
         '401':
-          description: Invalid JWT Token         
+          description: Invalid JWT Token
         '405':
           description: Invalid input
       security:
         - api_key: []
-    
     get:
       tags:
         - employee
@@ -64,14 +61,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EmployeeDTO'          
+                  $ref: '#/components/schemas/EmployeeDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Employee not found
       security:
         - api_key: []
-
   /api/employees/bydepartmentid/{departmentId}:
     get:
       tags:
@@ -94,15 +90,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EmployeeDTO'          
+                  $ref: '#/components/schemas/EmployeeDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Department not found
       security:
         - api_key: []
-        
-  /api/employees/{employeeId}:                    
+  /api/employees/{employeeId}:
     put:
       tags:
         - employee
@@ -129,14 +124,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeDTO'          
+                $ref: '#/components/schemas/EmployeeDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Employee not found
       security:
         - api_key: []
-    
     get:
       tags:
         - employee
@@ -156,14 +150,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeDTO'          
+                $ref: '#/components/schemas/EmployeeDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Employee not found
       security:
         - api_key: []
-    
     delete:
       tags:
         - employee
@@ -183,16 +176,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeDTO'          
+                $ref: '#/components/schemas/EmployeeDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Employee not found
       security:
         - api_key: []
- 
   /api/departments:
-    
     post:
       tags:
         - department
@@ -212,14 +203,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DepartmentDTO' 
+                $ref: '#/components/schemas/DepartmentDTO'
         '401':
-          description: Invalid JWT Token         
+          description: Invalid JWT Token
         '405':
           description: Invalid input
       security:
         - api_key: []
-    
     get:
       tags:
         - department
@@ -234,15 +224,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DepartmentDTO'          
+                  $ref: '#/components/schemas/DepartmentDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Department not found
       security:
         - api_key: []
-
-  /api/departments/{departmentId}:                    
+  /api/departments/{departmentId}:
     put:
       tags:
         - department
@@ -269,14 +258,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DepartmentDTO'          
+                $ref: '#/components/schemas/DepartmentDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Department not found
       security:
         - api_key: []
-    
     get:
       tags:
         - department
@@ -296,14 +284,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DepartmentDTO'          
+                $ref: '#/components/schemas/DepartmentDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Department not found
       security:
         - api_key: []
-    
     delete:
       tags:
         - department
@@ -323,14 +310,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DepartmentDTO'          
+                $ref: '#/components/schemas/DepartmentDTO'
         '400':
           description: Invalid ID supplied
         '404':
           description: Department not found
       security:
         - api_key: []
-                           
   /api/auth/signin:
     post:
       tags:
@@ -350,7 +336,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JWTAuthResponse'
-        
   /api/auth/signup:
     post:
       tags:
@@ -372,7 +357,6 @@ paths:
                 type: string
         '405':
           description: Invalid input
-          
 components:
   schemas:
     EmployeeDTO:
@@ -402,7 +386,6 @@ components:
         departmentName:
           type: string
           example: FS
-
     DepartmentDTO:
       type: object
       properties:
@@ -412,7 +395,6 @@ components:
         departmentName:
           type: string
           example: FS
-          
     AdminDTO:
       type: object
       properties:
@@ -436,9 +418,8 @@ components:
           example: Password123#
         roles:
           type: array
-          items: 
+          items:
             $ref: '#/components/schemas/Role'
-    
     Role:
       type: object
       properties:
@@ -448,7 +429,6 @@ components:
           enum:
             - ROLE_ADMIN
             - ROLE_USER
-                  
     LoginDTO:
       type: object
       properties:
@@ -459,17 +439,16 @@ components:
         password:
           type: string
           example: Password123#
-
     JWTAuthResponse:
       type: object
       properties:
         accessToken:
           type: string
-          example: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpc2hla0BnbWFpbC5jb20iLCJpYXQiOjE2NzgxMTYzNzAsImV4cCI6MTY3ODcyMTE3MH0.ptE86pG1CAbThRvMeD1rIdcZW1PSOXsa_h7E8-DKztdkME9-9JfFUQbAA4TUZKroePIQoia3HQw68XqsdW3Rxg
+          example: >-
+            eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpc2hla0BnbWFpbC5jb20iLCJpYXQiOjE2NzgxMTYzNzAsImV4cCI6MTY3ODcyMTE3MH0.ptE86pG1CAbThRvMeD1rIdcZW1PSOXsa_h7E8-DKztdkME9-9JfFUQbAA4TUZKroePIQoia3HQw68XqsdW3Rxg
         tokenType:
           type: string
           example: Bearer
-        
   securitySchemes:
     api_key:
       type: apiKey
