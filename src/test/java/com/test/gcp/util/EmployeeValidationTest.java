@@ -63,7 +63,7 @@ class EmployeeValidationTest {
 		employeeDTOs.add(employeeDTO2);
 		employeeDTOs.add(employeeDTO);
 		
-		//EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+		EmployeeService.EMPLOYEES.clear();
 	}
 
 	@Test

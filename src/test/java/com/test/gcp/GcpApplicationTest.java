@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Import;
 
 @SpringBootTest
-@TestConfiguration
+//@TestConfiguration
 @Import(GcpApplication.class)
 class GcpApplicationTest {
 

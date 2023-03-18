@@ -44,6 +44,7 @@ class DepartmentValidationTest {
 		departmentDTOs = new ArrayList<>();
 		departmentDTOs.add(departmentDTO2);
 		departmentDTOs.add(departmentDTO);
+		DepartmentService.DEPARTMENTS.clear();
 	}
 
 	@Test
