@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.test.gcp.payload.ErrorDetails;
 
+import lombok.Generated;
+
 @RestControllerAdvice
+@Generated
 public class GlobalExceptionHandler {
 	
 	@ResponseStatus(HttpStatus.NOT_FOUND)

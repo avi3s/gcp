@@ -12,12 +12,4 @@ public class ResourceFoundException extends RuntimeException {
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
     }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public String getFieldValue() {
-        return fieldValue;
-    }
 }
