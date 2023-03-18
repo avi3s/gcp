@@ -9,16 +9,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonInclude(Include.NON_NULL)
-@Generated
+@Data @EqualsAndHashCode(callSuper = false) @JsonInclude(Include.NON_NULL) @Generated
 public class LoginDTO {
 
     @NotBlank(message = "{password.null.message}")
     private String password;
 
-    @NotBlank(message = "{email.null.message}")
-    @Email(message = "{email.format.message}")
+    @NotBlank(message = "{email.null.message}") @Email(message = "{email.format.message}")
     private String email;
 }

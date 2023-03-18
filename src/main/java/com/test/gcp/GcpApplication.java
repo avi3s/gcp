@@ -12,13 +12,12 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
-@SpringBootApplication
-@SecurityScheme(name = "gcp",scheme = "bearer",type = SecuritySchemeType.HTTP,in = SecuritySchemeIn.HEADER)
+@SpringBootApplication @SecurityScheme(name = "gcp", scheme = "bearer", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
 public class GcpApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GcpApplication.class, args);
-	}
+    public static void main(final String[] args) {
+        SpringApplication.run(GcpApplication.class, args);
+    }
 
     @Bean
     MessageSource messageSource() {
@@ -28,8 +27,7 @@ public class GcpApplication {
         return messageSource;
     }
 
-    @Bean
-    @Primary
+    @Bean @Primary
     LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());

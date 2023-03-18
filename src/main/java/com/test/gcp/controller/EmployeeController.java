@@ -21,44 +21,41 @@ import com.test.gcp.service.EmployeeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/employees")
-@PreAuthorize("hasRole('ADMIN')")
-@SecurityRequirement(name = "gcp")
+@RestController @RequestMapping("/api/employees") @PreAuthorize("hasRole('ADMIN')") @SecurityRequirement(name = "gcp")
 public class EmployeeController {
 
-	@Autowired
-	private EmployeeService employeeService;
-	
-	@PostMapping
-    public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO){
-		
+    @Autowired
+    private EmployeeService employeeService;
+
+    @PostMapping
+    public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody final EmployeeDTO employeeDTO) {
+
         return new ResponseEntity<>(employeeService.createEmployee(employeeDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<EmployeeDTO> getEmployees(){
+    public List<EmployeeDTO> getEmployees() {
         return employeeService.getEmployees();
     }
-    
+
     @GetMapping("bydepartmentid/{departmentId}")
-    public List<EmployeeDTO> getEmployeesByDepartmentId(@PathVariable(value = "departmentId") String departmentId){
+    public List<EmployeeDTO> getEmployeesByDepartmentId(@PathVariable(value = "departmentId") final String departmentId) {
         return employeeService.getEmployeesByDepartmentId(departmentId);
     }
 
     @GetMapping("/{employeeId}")
-    public ResponseEntity<EmployeeDTO> getEmployeesById(@PathVariable(value = "employeeId") String employeeId){
+    public ResponseEntity<EmployeeDTO> getEmployeesById(@PathVariable(value = "employeeId") final String employeeId) {
         return new ResponseEntity<>(employeeService.getEmployeesById(employeeId), HttpStatus.OK);
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable(value = "employeeId") String employeeId, @Valid @RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable(value = "employeeId") final String employeeId, @Valid @RequestBody final EmployeeDTO employeeDTO) {
         return new ResponseEntity<>(employeeService.updateEmployee(employeeId, employeeDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "employeeId") String employeeId){
-    	employeeService.deleteEmployee(employeeId);
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "employeeId") final String employeeId) {
+        employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
     }
 }

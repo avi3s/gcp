@@ -13,27 +13,23 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonInclude(Include.NON_NULL)
-@Generated
+@Data @EqualsAndHashCode(callSuper = false) @JsonInclude(Include.NON_NULL) @Generated
 public class AdminDTO {
 
-	private String employeeId;
-	
+    private String employeeId;
+
     @NotBlank(message = "{name.null.message}")
     private String name;
-    
+
     @NotBlank(message = "{password.null.message}")
     private String password;
 
-    @NotBlank(message = "{email.null.message}")
-    @Email(message = "{email.format.message}")
+    @NotBlank(message = "{email.null.message}") @Email(message = "{email.format.message}")
     private String email;
 
     @Size(min = 10, message = "{address.null.message}", max = 50)
     private String address;
-    
+
     @Valid
     private Set<Role> roles;
 }

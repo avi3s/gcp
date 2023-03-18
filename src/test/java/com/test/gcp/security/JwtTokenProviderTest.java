@@ -21,49 +21,49 @@ import io.jsonwebtoken.security.SignatureException;
 @ExtendWith(MockitoExtension.class)
 class JwtTokenProviderTest {
 
-	@InjectMocks
-	private JwtTokenProvider jwtTokenProvider;
-	
-	@Mock
-	private Authentication authentication;
-	
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
-	
-	@BeforeEach
-	void setUp() throws Exception {
-		ReflectionTestUtils.setField(jwtTokenProvider, "jwtSecret", "JWTSecretKey1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-		ReflectionTestUtils.setField(jwtTokenProvider, "jwtExpirationInMs", 604800000);
-	}
+    @InjectMocks
+    private JwtTokenProvider jwtTokenProvider;
 
-	@Test
-	void testGenerateToken() {
-		when(authentication.getName()).thenReturn("avirup.pal@gmail.com");
-		jwtTokenProvider.generateToken(authentication);
-	}
+    @Mock
+    private Authentication authentication;
 
-	@Test
-	void testGetUsernameFromJWT() {
-		String result = jwtTokenProvider.getUsernameFromJWT(token);
-		assertEquals("avirup.pal@gmail.com", result);
-	}
+    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
 
-	@Test
-	void testValidateToken() {
-		boolean result = jwtTokenProvider.validateToken(token);
-		assertTrue(result);
-	}
-	
-	@Test
-	void testValidateToken_BlogAPIException() {
-		token = "eyJhbGciOiJIUzUxMi.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
-		Throwable throwable = assertThrows(BlogAPIException.class, () -> jwtTokenProvider.validateToken(token));
+    @BeforeEach
+    void setUp() throws Exception {
+        ReflectionTestUtils.setField(jwtTokenProvider, "jwtSecret", "JWTSecretKey1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        ReflectionTestUtils.setField(jwtTokenProvider, "jwtExpirationInMs", 604800000);
+    }
+
+    @Test
+    void testGenerateToken() {
+        when(authentication.getName()).thenReturn("avirup.pal@gmail.com");
+        jwtTokenProvider.generateToken(authentication);
+    }
+
+    @Test
+    void testGetUsernameFromJWT() {
+        String result = jwtTokenProvider.getUsernameFromJWT(token);
+        assertEquals("avirup.pal@gmail.com", result);
+    }
+
+    @Test
+    void testValidateToken() {
+        boolean result = jwtTokenProvider.validateToken(token);
+        assertTrue(result);
+    }
+
+    @Test
+    void testValidateToken_BlogAPIException() {
+        token = "eyJhbGciOiJIUzUxMi.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
+        Throwable throwable = assertThrows(BlogAPIException.class, () -> jwtTokenProvider.validateToken(token));
         assertEquals("Invalid JWT token", throwable.getMessage());
-	}
-	
-	@Test
-	void testValidateToken_SignatureException() {
-		token = "eyJhbGciOiJIUzUxMiJ9.JzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
-		Throwable throwable = assertThrows(SignatureException.class, () -> jwtTokenProvider.validateToken(token));
+    }
+
+    @Test
+    void testValidateToken_SignatureException() {
+        token = "eyJhbGciOiJIUzUxMiJ9.JzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODkwOTIyMCwiZXhwIjoxNjc5NTE0MDIwfQ.EaquIvz6qQSNnlJxLgVJkjOR3BrU4XjWklEpv24m2H5aEiE56rbYmW55y9869YYlaNhiXn3le1bAPZDfYBQcqg";
+        Throwable throwable = assertThrows(SignatureException.class, () -> jwtTokenProvider.validateToken(token));
         assertEquals("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", throwable.getMessage());
-	}
+    }
 }

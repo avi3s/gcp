@@ -16,20 +16,20 @@ import jakarta.servlet.http.HttpServletResponse;
 @ExtendWith(MockitoExtension.class)
 class JwtAuthenticationEntryPointTest {
 
-	@InjectMocks
-	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	
-	@Mock
-	private HttpServletRequest request;
-	
-	@Mock
-	private HttpServletResponse response;
-	
-	@Mock
-	private AuthenticationException authException;
-    
-	@Test
-	void testCommence() throws IOException, ServletException {
-		jwtAuthenticationEntryPoint.commence(request, response, authException);
-	}
+    @InjectMocks
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Mock
+    private AuthenticationException authException;
+
+    @Test
+    void testCommence() throws IOException, ServletException {
+        jwtAuthenticationEntryPoint.commence(request, response, authException);
+    }
 }

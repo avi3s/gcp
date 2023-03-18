@@ -19,24 +19,24 @@ import com.test.gcp.service.EmployeeService;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    	
-    	AdminDTO presentAdminDTO = null;
-    	if (EmployeeService.ADMINS.isEmpty()) {
-    		throw new UsernameNotFoundException("Admin not found with email:" + email);
-    	} else {
-    		Optional<AdminDTO> adminDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(email)).findFirst();
-    		if(adminDTO.isPresent()) {
-    			presentAdminDTO = adminDTO.get();
-    		} else {
-    			throw new UsernameNotFoundException("Admin not found with email:" + email);
-    		}
-		}
-    	
-       return new org.springframework.security.core.userdetails.User(presentAdminDTO.getEmail(), presentAdminDTO.getPassword(), mapRolesToAuthorities(presentAdminDTO.getRoles()));
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+
+        AdminDTO presentAdminDTO = null;
+        if (EmployeeService.ADMINS.isEmpty()) {
+            throw new UsernameNotFoundException("Admin not found with email:" + email);
+        } else {
+            Optional<AdminDTO> adminDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(email)).findFirst();
+            if (adminDTO.isPresent()) {
+                presentAdminDTO = adminDTO.get();
+            } else {
+                throw new UsernameNotFoundException("Admin not found with email:" + email);
+            }
+        }
+
+        return new org.springframework.security.core.userdetails.User(presentAdminDTO.getEmail(), presentAdminDTO.getPassword(), mapRolesToAuthorities(presentAdminDTO.getRoles()));
     }
 
-    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(final Set<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 }

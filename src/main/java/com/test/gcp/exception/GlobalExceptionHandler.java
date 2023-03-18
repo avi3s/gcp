@@ -19,58 +19,52 @@ import com.test.gcp.payload.ErrorDetails;
 
 import lombok.Generated;
 
-@RestControllerAdvice
-@Generated
+@RestControllerAdvice @Generated
 public class GlobalExceptionHandler {
-	
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ErrorDetails handleResourceNotFoundException(ResourceNotFoundException exception) {
-		
-		ErrorDetails errorDetails = new ErrorDetails();
-		errorDetails.setTimestamp(getCurrentDateTime());
-		errorDetails.setErrorMessage(exception.getMessage());
-		return errorDetails;
-	}
-	
-	@ResponseStatus(HttpStatus.CONFLICT)
-	@ExceptionHandler(ResourceFoundException.class)
-	public ErrorDetails handleResourceFoundException(ResourceFoundException exception) {
-		
-		ErrorDetails errorDetails = new ErrorDetails();
-		errorDetails.setTimestamp(getCurrentDateTime());
-		errorDetails.setErrorMessage(exception.getMessage());
-		return errorDetails;
-	}
 
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	@ExceptionHandler(BlogAPIException.class)
-	public ErrorDetails handleBlogAPIException(BlogAPIException exception) {
-		
-		ErrorDetails errorDetails = new ErrorDetails();
-		errorDetails.setTimestamp(getCurrentDateTime());
-		errorDetails.setErrorMessage(exception.getMessage());
-		return errorDetails;
-	}
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public List<ErrorDetails> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    @ResponseStatus(HttpStatus.NOT_FOUND) @ExceptionHandler(ResourceNotFoundException.class)
+    public ErrorDetails handleResourceNotFoundException(final ResourceNotFoundException exception) {
+
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setTimestamp(getCurrentDateTime());
+        errorDetails.setErrorMessage(exception.getMessage());
+        return errorDetails;
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT) @ExceptionHandler(ResourceFoundException.class)
+    public ErrorDetails handleResourceFoundException(final ResourceFoundException exception) {
+
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setTimestamp(getCurrentDateTime());
+        errorDetails.setErrorMessage(exception.getMessage());
+        return errorDetails;
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN) @ExceptionHandler(BlogAPIException.class)
+    public ErrorDetails handleBlogAPIException(final BlogAPIException exception) {
+
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setTimestamp(getCurrentDateTime());
+        errorDetails.setErrorMessage(exception.getMessage());
+        return errorDetails;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST) @ExceptionHandler(MethodArgumentNotValidException.class)
+    public List<ErrorDetails> handleValidationExceptions(final MethodArgumentNotValidException ex) {
 
         List<ErrorDetails> errorDetails = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
-        	ErrorDetails errorDetail = new ErrorDetails();
-        	errorDetail.setTimestamp(getCurrentDateTime());
-        	errorDetail.setErrorMessage(error.getDefaultMessage());
-        	errorDetail.setFieldName(((FieldError) error).getField());
-        	errorDetails.add(errorDetail);
+            ErrorDetails errorDetail = new ErrorDetails();
+            errorDetail.setTimestamp(getCurrentDateTime());
+            errorDetail.setErrorMessage(error.getDefaultMessage());
+            errorDetail.setFieldName(((FieldError) error).getField());
+            errorDetails.add(errorDetail);
         });
         return errorDetails;
     }
-	
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public Object handleAnyException(Exception e) {
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) @ExceptionHandler(Exception.class)
+    public Object handleAnyException(final Exception e) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", getCurrentDateTime());
@@ -78,8 +72,8 @@ public class GlobalExceptionHandler {
 
         return body;
     }
-	
-	private static String getCurrentDateTime() {
+
+    private static String getCurrentDateTime() {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();

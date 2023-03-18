@@ -27,12 +27,11 @@ import com.test.gcp.service.EmployeeService;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/auth")
+@RestController @RequestMapping("/api/auth")
 public class AuthController {
 
-	private static final Logger LOGGER = LogManager.getLogger(AuthController.class);
-	
+    private static final Logger logger = LogManager.getLogger(AuthController.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -43,34 +42,34 @@ public class AuthController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<JWTAuthResponse> loginAdmin(@Valid @RequestBody LoginDTO loginDto){
-    	
-    	LOGGER.log(Level.INFO, () -> "loginAdmin method starts ===>>> "+ loginDto);
-    	
+    public ResponseEntity<JWTAuthResponse> loginAdmin(@Valid @RequestBody final LoginDTO loginDto) {
+
+        logger.log(Level.INFO, () -> "loginAdmin method starts ===>>> " + loginDto);
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.generateToken(authentication);
 
-        LOGGER.log(Level.INFO, () -> "loginAdmin method ends ===>>> "+ token);
-        
+        logger.log(Level.INFO, () -> "loginAdmin method ends ===>>> " + token);
+
         return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerAdmin(@Valid @RequestBody AdminDTO signUpDto){
+    public ResponseEntity<String> registerAdmin(@Valid @RequestBody final AdminDTO signUpDto) {
 
-    	LOGGER.log(Level.INFO, () -> "registerAdmin method starts ===>>> "+ signUpDto);
-    	Optional<AdminDTO> adminDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(signUpDto.getEmail())).findFirst();
-		if(adminDTO.isPresent()) {
-			throw new ResourceFoundException("Email", signUpDto.getEmail());
-		}
-		
-		String emplyeeId = String.valueOf(EmployeeService.ADMINS.size() + 1);
-		signUpDto.setEmployeeId(emplyeeId);
-		signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-		EmployeeService.ADMINS.add(signUpDto);
-		
-		LOGGER.log(Level.INFO, () -> "registerAdmin method ends ===>>> "+ signUpDto);
+        logger.log(Level.INFO, () -> "registerAdmin method starts ===>>> " + signUpDto);
+        Optional<AdminDTO> adminDTO = EmployeeService.ADMINS.stream().filter(e -> e.getEmail().equalsIgnoreCase(signUpDto.getEmail())).findFirst();
+        if (adminDTO.isPresent()) {
+            throw new ResourceFoundException("Email", signUpDto.getEmail());
+        }
+
+        String emplyeeId = String.valueOf(EmployeeService.ADMINS.size() + 1);
+        signUpDto.setEmployeeId(emplyeeId);
+        signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        EmployeeService.ADMINS.add(signUpDto);
+
+        logger.log(Level.INFO, () -> "registerAdmin method ends ===>>> " + signUpDto);
 
         return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
     }

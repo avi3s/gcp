@@ -10,13 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonInclude(Include.NON_NULL)
-@Generated
+@Data @EqualsAndHashCode(callSuper = false) @JsonInclude(Include.NON_NULL) @Generated
 public class Role {
 
-	@NotBlank(message = "{role.name.null.message}")
-	@ValueOfEnum(enumClass = RoleType.class, message = "{role.name.format.message}")
-	private String name;
+    @NotBlank(message = "{role.name.null.message}") @ValueOfEnum(enumClass = RoleType.class, message = "{role.name.format.message}")
+    private String name;
 }

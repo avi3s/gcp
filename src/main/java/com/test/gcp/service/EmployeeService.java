@@ -8,18 +8,18 @@ import com.test.gcp.payload.EmployeeDTO;
 
 public interface EmployeeService {
 
-	public static final List<EmployeeDTO> EMPLOYEES = new LinkedList<>();
-	public static final List<AdminDTO> ADMINS = new LinkedList<>();
+    List<EmployeeDTO> EMPLOYEES = new LinkedList<>();
+    List<AdminDTO> ADMINS = new LinkedList<>();
 
-	public EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
+    EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
 
-	public List<EmployeeDTO> getEmployees();
+    List<EmployeeDTO> getEmployees();
 
-	public EmployeeDTO getEmployeesById(String employeeId);
+    EmployeeDTO getEmployeesById(String employeeId);
 
-	public EmployeeDTO updateEmployee(String employeeId, EmployeeDTO employeeDTO);
+    EmployeeDTO updateEmployee(String employeeId, EmployeeDTO employeeDTO);
 
-	public void deleteEmployee(String employeeId);
+    void deleteEmployee(String employeeId);
 
-	public List<EmployeeDTO> getEmployeesByDepartmentId(String departmentId);
+    List<EmployeeDTO> getEmployeesByDepartmentId(String departmentId);
 }

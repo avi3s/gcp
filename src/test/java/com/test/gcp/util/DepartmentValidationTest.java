@@ -20,67 +20,61 @@ import com.test.gcp.exception.ResourceNotFoundException;
 import com.test.gcp.payload.DepartmentDTO;
 import com.test.gcp.service.DepartmentService;
 
-@ExtendWith(MockitoExtension.class)
-@TestMethodOrder(OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class) @TestMethodOrder(OrderAnnotation.class)
 class DepartmentValidationTest {
 
-	@InjectMocks
-	private DepartmentValidation departmentValidation;
-	
-	DepartmentDTO departmentDTO;
-	DepartmentDTO departmentDTO2;
-	List<DepartmentDTO> departmentDTOs;
-	
-	@BeforeEach
-	void setUp() throws Exception {
-		departmentDTO = new DepartmentDTO();
-		departmentDTO.setDepartmentId("1");
-		departmentDTO.setDepartmentName("FS");
-		
-		departmentDTO2 = new DepartmentDTO();
-		departmentDTO2.setDepartmentId("2");
-		departmentDTO2.setDepartmentName("NON-FS");
-		
-		departmentDTOs = new ArrayList<>();
-		departmentDTOs.add(departmentDTO2);
-		departmentDTOs.add(departmentDTO);
-		DepartmentService.DEPARTMENTS.clear();
-	}
+    @InjectMocks
+    private DepartmentValidation departmentValidation;
 
-	@Test
-	@Order(1)
-	void testValidateAddDepartment() {
-		departmentValidation.validateAddDepartment(departmentDTO);
-	}
-	
-	@Test
-	@Order(2)
-	void testValidateAddDepartment_ResourceFoundException() {
-		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		Throwable throwable = assertThrows(ResourceFoundException.class, () -> departmentValidation.validateAddDepartment(departmentDTO));
+    private DepartmentDTO departmentDTO;
+    private DepartmentDTO departmentDTO2;
+    private List<DepartmentDTO> departmentDTOs;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        departmentDTO = new DepartmentDTO();
+        departmentDTO.setDepartmentId("1");
+        departmentDTO.setDepartmentName("FS");
+
+        departmentDTO2 = new DepartmentDTO();
+        departmentDTO2.setDepartmentId("2");
+        departmentDTO2.setDepartmentName("NON-FS");
+
+        departmentDTOs = new ArrayList<>();
+        departmentDTOs.add(departmentDTO2);
+        departmentDTOs.add(departmentDTO);
+        DepartmentService.DEPARTMENTS.clear();
+    }
+
+    @Test @Order(1)
+    void testValidateAddDepartment() {
+        departmentValidation.validateAddDepartment(departmentDTO);
+    }
+
+    @Test @Order(2)
+    void testValidateAddDepartment_ResourceFoundException() {
+        DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+        Throwable throwable = assertThrows(ResourceFoundException.class, () -> departmentValidation.validateAddDepartment(departmentDTO));
         assertEquals("Name already found with : 'FS'", throwable.getMessage());
-	}
-	
-	@Test
-	@Order(3)
-	void testValidateUpdateDepartment() {
-		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		departmentValidation.validateUpdateDepartment(departmentDTO, "1");
-	}
-	
-	@Test
-	@Order(4)
-	void testValidateUpdateDepartment_ResourceNotFoundException() {
-		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> departmentValidation.validateUpdateDepartment(departmentDTO, "3"));
+    }
+
+    @Test @Order(3)
+    void testValidateUpdateDepartment() {
+        DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+        departmentValidation.validateUpdateDepartment(departmentDTO, "1");
+    }
+
+    @Test @Order(4)
+    void testValidateUpdateDepartment_ResourceNotFoundException() {
+        DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> departmentValidation.validateUpdateDepartment(departmentDTO, "3"));
         assertEquals("departmentId not found with : '3'", throwable.getMessage());
-	}
-	
-	@Test
-	@Order(5)
-	void testValidateUpdateDepartment_ResourceFoundException() {
-		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		Throwable throwable = assertThrows(ResourceFoundException.class, () -> departmentValidation.validateUpdateDepartment(departmentDTO, "2"));
-		assertEquals("Name already found with : 'FS'", throwable.getMessage());
-	}
+    }
+
+    @Test @Order(5)
+    void testValidateUpdateDepartment_ResourceFoundException() {
+        DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+        Throwable throwable = assertThrows(ResourceFoundException.class, () -> departmentValidation.validateUpdateDepartment(departmentDTO, "2"));
+        assertEquals("Name already found with : 'FS'", throwable.getMessage());
+    }
 }

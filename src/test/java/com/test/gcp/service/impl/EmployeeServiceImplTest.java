@@ -24,106 +24,107 @@ import com.test.gcp.util.EmployeeValidation;
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
 
-	@InjectMocks
-	private EmployeeServiceImpl employeeServiceImpl;
-	
-	@Mock
-	private EmployeeValidation employeeValidation;
-	
-	EmployeeDTO employeeDTO;
-	EmployeeDTO employeeDTO2;
-	List<EmployeeDTO> employeeDTOs;
-	
-	@BeforeEach
-	void setUp() throws Exception {
-		employeeDTO = new EmployeeDTO();
-		employeeDTO.setEmployeeId("1");
-		employeeDTO.setName("Avirup");
-		employeeDTO.setDepartmentId("1");
-		
-		employeeDTO2 = new EmployeeDTO();
-		employeeDTO2.setEmployeeId("2");
-		employeeDTO2.setName("Sumit");
-		employeeDTO2.setDepartmentId("2");
-		
-		employeeDTOs = new ArrayList<>();
-		employeeDTOs.add(employeeDTO2);
-		employeeDTOs.add(employeeDTO);
-	}
+    @InjectMocks
+    private EmployeeServiceImpl employeeServiceImpl;
 
-	@Test
-	void testCreateEmployee() {
-		Mockito.doNothing().when(employeeValidation).validateAddEmployee(employeeDTO);
-		EmployeeDTO actualResponse = employeeServiceImpl.createEmployee(employeeDTO);
-		assertEquals(String.valueOf(EmployeeService.EMPLOYEES.size()), actualResponse.getEmployeeId());
-	}
+    @Mock
+    private EmployeeValidation employeeValidation;
 
-	@Test
-	void testGetEmployees() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		assertEquals(EmployeeService.EMPLOYEES.size(), employeeServiceImpl.getEmployees().size());
-	}
-	
-	@Test
-	void testGetEmployeesByDepartmentId() {
-		DepartmentDTO departmentDTO;
-		DepartmentDTO departmentDTO2;
-		List<DepartmentDTO> departmentDTOs;
-		departmentDTO = new DepartmentDTO();
-		departmentDTO.setDepartmentId("1");
-		departmentDTO.setDepartmentName("FS");
-		
-		departmentDTO2 = new DepartmentDTO();
-		departmentDTO2.setDepartmentId("2");
-		departmentDTO2.setDepartmentName("NON-FS");
-		
-		departmentDTOs = new ArrayList<>();
-		departmentDTOs.add(departmentDTO2);
-		departmentDTOs.add(departmentDTO);
-		DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		assertEquals(EmployeeService.EMPLOYEES.stream().filter(e -> e.getDepartmentId().equals("1")).count(), employeeServiceImpl.getEmployeesByDepartmentId("1").size());
-	}
-	
-	@Test
-	void testGetEmployeesByDepartmentId_ResourceFoundException() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.getEmployeesByDepartmentId("20"));
+    private EmployeeDTO employeeDTO;
+    private EmployeeDTO employeeDTO2;
+    private List<EmployeeDTO> employeeDTOs;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmployeeId("1");
+        employeeDTO.setName("Avirup");
+        employeeDTO.setDepartmentId("1");
+
+        employeeDTO2 = new EmployeeDTO();
+        employeeDTO2.setEmployeeId("2");
+        employeeDTO2.setName("Sumit");
+        employeeDTO2.setDepartmentId("2");
+
+        employeeDTOs = new ArrayList<>();
+        employeeDTOs.add(employeeDTO2);
+        employeeDTOs.add(employeeDTO);
+    }
+
+    @Test
+    void testCreateEmployee() {
+        Mockito.doNothing().when(employeeValidation).validateAddEmployee(employeeDTO);
+        EmployeeDTO actualResponse = employeeServiceImpl.createEmployee(employeeDTO);
+        assertEquals(String.valueOf(EmployeeService.EMPLOYEES.size()), actualResponse.getEmployeeId());
+    }
+
+    @Test
+    void testGetEmployees() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        assertEquals(EmployeeService.EMPLOYEES.size(), employeeServiceImpl.getEmployees().size());
+    }
+
+    @Test
+    void testGetEmployeesByDepartmentId() {
+        DepartmentDTO departmentDTO;
+        DepartmentDTO departmentDTO2;
+        List<DepartmentDTO> departmentDTOs;
+        departmentDTO = new DepartmentDTO();
+        departmentDTO.setDepartmentId("1");
+        departmentDTO.setDepartmentName("FS");
+
+        departmentDTO2 = new DepartmentDTO();
+        departmentDTO2.setDepartmentId("2");
+        departmentDTO2.setDepartmentName("NON-FS");
+
+        departmentDTOs = new ArrayList<>();
+        departmentDTOs.add(departmentDTO2);
+        departmentDTOs.add(departmentDTO);
+        DepartmentService.DEPARTMENTS.addAll(departmentDTOs);
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        assertEquals(EmployeeService.EMPLOYEES.stream().filter(e -> e.getDepartmentId().equals("1")).count(), employeeServiceImpl.getEmployeesByDepartmentId("1").size());
+    }
+
+    @Test
+    void testGetEmployeesByDepartmentId_ResourceFoundException() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.getEmployeesByDepartmentId("20"));
         assertEquals("departmentId not found with : '20'", throwable.getMessage());
-	}
+    }
 
-	@Test
-	void testGetEmployeesById() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		EmployeeDTO actualResponse = employeeServiceImpl.getEmployeesById("1");
-		assertEquals("1", actualResponse.getEmployeeId());
-	}
-	
-	@Test
-	void testGetDepartmentsById_ResourceFoundException() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.getEmployeesById("20"));
+    @Test
+    void testGetEmployeesById() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        EmployeeDTO actualResponse = employeeServiceImpl.getEmployeesById("1");
+        assertEquals("1", actualResponse.getEmployeeId());
+    }
+
+    @Test
+    void testGetDepartmentsById_ResourceFoundException() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.getEmployeesById("20"));
         assertEquals("employeeId not found with : '20'", throwable.getMessage());
-	}
+    }
 
-	@Test
-	void testUpdateEmployee() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		EmployeeDTO actualResponse = employeeServiceImpl.updateEmployee("1", employeeDTO);
-		assertEquals("1", actualResponse.getEmployeeId());
-	}
+    @Test
+    void testUpdateEmployee() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        EmployeeDTO actualResponse = employeeServiceImpl.updateEmployee("1", employeeDTO);
+        assertEquals("1", actualResponse.getEmployeeId());
+    }
 
-	@Test
-	void testDeleteEmployee() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		employeeServiceImpl.deleteEmployee("2");
-		//Mockito.verify(EmployeeService.EMPLOYEES.remove(employeeDTO), Mockito.times(1));
-	}
-	
-	@Test
-	void testDeleteDepartment_ResourceFoundException() {
-		EmployeeService.EMPLOYEES.addAll(employeeDTOs);
-		Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.deleteEmployee("20"));
+    @Test
+    void testDeleteEmployee() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        employeeServiceImpl.deleteEmployee("2");
+        // Mockito.verify(EmployeeService.EMPLOYEES.remove(employeeDTO),
+        // Mockito.times(1));
+    }
+
+    @Test
+    void testDeleteDepartment_ResourceFoundException() {
+        EmployeeService.EMPLOYEES.addAll(employeeDTOs);
+        Throwable throwable = assertThrows(ResourceNotFoundException.class, () -> employeeServiceImpl.deleteEmployee("20"));
         assertEquals("employeeId not found with : '20'", throwable.getMessage());
-	}
+    }
 }

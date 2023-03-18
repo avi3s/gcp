@@ -21,39 +21,36 @@ import com.test.gcp.service.DepartmentService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/api/departments")
-@PreAuthorize("hasRole('ADMIN')")
-@SecurityRequirement(name = "gcp")
+@RestController @RequestMapping("/api/departments") @PreAuthorize("hasRole('ADMIN')") @SecurityRequirement(name = "gcp")
 public class DepartmentController {
 
-	@Autowired
-	private DepartmentService departmentService;
-	
-	@PostMapping
-    public ResponseEntity<DepartmentDTO> createDepartment(@Valid @RequestBody DepartmentDTO departmentDTO){
-		
+    @Autowired
+    private DepartmentService departmentService;
+
+    @PostMapping
+    public ResponseEntity<DepartmentDTO> createDepartment(@Valid @RequestBody final DepartmentDTO departmentDTO) {
+
         return new ResponseEntity<>(departmentService.createDepartment(departmentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<DepartmentDTO> getDepartments(){
+    public List<DepartmentDTO> getDepartments() {
         return departmentService.getDepartments();
     }
 
     @GetMapping("/{departmentId}")
-    public ResponseEntity<DepartmentDTO> getDepartmentsById(@PathVariable(value = "departmentId") String departmentId){
+    public ResponseEntity<DepartmentDTO> getDepartmentsById(@PathVariable(value = "departmentId") final String departmentId) {
         return new ResponseEntity<>(departmentService.getDepartmentsById(departmentId), HttpStatus.OK);
     }
-    
+
     @PutMapping("/{departmentId}")
-    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable(value = "departmentId") String departmentId, @Valid @RequestBody DepartmentDTO departmentDTO){
+    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable(value = "departmentId") final String departmentId, @Valid @RequestBody final DepartmentDTO departmentDTO) {
         return new ResponseEntity<>(departmentService.updateDepartment(departmentId, departmentDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{departmentId}")
-    public ResponseEntity<String> deleteDepartment(@PathVariable(value = "departmentId") String departmentId){
-    	departmentService.deleteDepartment(departmentId);
+    public ResponseEntity<String> deleteDepartment(@PathVariable(value = "departmentId") final String departmentId) {
+        departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>("Department deleted successfully", HttpStatus.OK);
     }
 }

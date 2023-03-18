@@ -20,22 +20,19 @@ import com.test.gcp.security.JwtAuthenticationFilter;
 
 import lombok.Generated;
 
-@EnableWebSecurity
-@EnableMethodSecurity
-@Configuration
-@Generated
+@EnableWebSecurity @EnableMethodSecurity @Configuration @Generated
 public class SecurityConfig {
 
-	@Autowired
+    @Autowired
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
-	
-	@Bean
-    JwtAuthenticationFilter jwtAuthenticationFilter(){
-        return  new JwtAuthenticationFilter();
-    }
-	
+
     @Bean
-    AuthenticationManager authenticationManager(HttpSecurity httpSecurity, CustomUserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+    JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(final HttpSecurity httpSecurity, final CustomUserDetailsService userDetailsService, final BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
         return authenticationManagerBuilder.build();
@@ -43,29 +40,16 @@ public class SecurityConfig {
 
     @Bean
     UserDetailsService userDetailsService() {
-    	return new CustomUserDetailsService();
+        return new CustomUserDetailsService();
     }
 
     @SuppressWarnings("deprecation")
-	@Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        
-        http
-        .csrf().disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(authenticationEntryPoint)
-        .and()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeRequests()
-        //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-        .requestMatchers("/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html").permitAll()
-        .requestMatchers("/api/auth/**").permitAll()
-        .anyRequest()
-        .authenticated();
+    @Bean
+    SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+
+        http.csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                // .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll().requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

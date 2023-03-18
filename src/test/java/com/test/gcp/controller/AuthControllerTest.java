@@ -29,8 +29,7 @@ import com.test.gcp.payload.LoginDTO;
 import com.test.gcp.payload.Role;
 import com.test.gcp.security.JwtTokenProvider;
 
-@ExtendWith(MockitoExtension.class)
-@TestMethodOrder(OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class) @TestMethodOrder(OrderAnnotation.class)
 class AuthControllerTest {
 
     @Mock
@@ -44,17 +43,17 @@ class AuthControllerTest {
 
     @InjectMocks
     private AuthController authController;
-    
-	@BeforeEach
-	void setUp() throws Exception {
-	}
 
-	@Test
-	void testLoginAdmin() {
+    @BeforeEach
+    void setUp() throws Exception {
+    }
+
+    @Test
+    void testLoginAdmin() {
         LoginDTO loginDto = new LoginDTO();
         loginDto.setPassword("password");
         loginDto.setEmail("testuser@test.com");
-        
+
         Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
 
@@ -66,9 +65,8 @@ class AuthControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-	@Test
-	@Order(1) 
-	void testRegisterAdmin() {
+    @Test @Order(1)
+    void testRegisterAdmin() {
         AdminDTO adminDTO = new AdminDTO();
         adminDTO.setEmail("testuser@test.com");
         adminDTO.setName("Test User");
@@ -81,11 +79,10 @@ class AuthControllerTest {
         assertEquals("Admin registered successfully", response.getBody());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
-	
-	@Test
-	@Order(2) 
-	void testRegisterAdmin_ResourceFoundException() {
-		AdminDTO adminDTO = new AdminDTO();
+
+    @Test @Order(2)
+    void testRegisterAdmin_ResourceFoundException() {
+        AdminDTO adminDTO = new AdminDTO();
         adminDTO.setEmail("testuser@test.com");
         adminDTO.setName("Test User");
         adminDTO.setPassword("password");

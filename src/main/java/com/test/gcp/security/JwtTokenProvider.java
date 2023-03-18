@@ -21,38 +21,30 @@ public class JwtTokenProvider {
 
     @Value("${app.jwt-secret}")
     private String jwtSecret;
-    
+
     @Value("${app.jwt-expiration-milliseconds}")
     private int jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(final Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationInMs);
 
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+        return Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(expireDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
     // get username from the token
-    public String getUsernameFromJWT(String token){
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
+    public String getUsernameFromJWT(final String token) {
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
 
     // validate JWT token
-    public boolean validateToken(String token){
-        try{
+    public boolean validateToken(final String token) {
+        try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
-        }catch (SecurityException ex){
+        } catch (SecurityException ex) {
             throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Invalid JWT signature");
         } catch (MalformedJwtException ex) {
             throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Invalid JWT token");

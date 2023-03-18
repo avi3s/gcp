@@ -13,17 +13,17 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @ExtendWith(MockitoExtension.class)
 class ServletInitializerTest {
 
-	@Mock
-	private SpringApplicationBuilder springApplicationBuilder;
+    @Mock
+    private SpringApplicationBuilder springApplicationBuilder;
 
-	@Test
-	void testConfigureSpringApplicationBuilder() {
-		ServletInitializer servletInitializer = new ServletInitializer();
-		when(springApplicationBuilder.sources(GcpApplication.class)).thenReturn(springApplicationBuilder);
+    @Test
+    void testConfigureSpringApplicationBuilder() {
+        ServletInitializer servletInitializer = new ServletInitializer();
+        when(springApplicationBuilder.sources(GcpApplication.class)).thenReturn(springApplicationBuilder);
 
-		SpringApplicationBuilder result = servletInitializer.configure(springApplicationBuilder);
+        SpringApplicationBuilder result = servletInitializer.configure(springApplicationBuilder);
 
-		verify(springApplicationBuilder).sources(GcpApplication.class);
-		assertEquals(springApplicationBuilder, result);
-	}
+        verify(springApplicationBuilder).sources(GcpApplication.class);
+        assertEquals(springApplicationBuilder, result);
+    }
 }

@@ -16,20 +16,20 @@ import jakarta.servlet.http.HttpServletResponse;
 @ExtendWith(MockitoExtension.class)
 class JwtAuthenticationFilterTest {
 
-	@InjectMocks
-	private JwtAuthenticationFilter jwtAuthenticationFilter;
-	
-	@Mock
-	private HttpServletRequest request;
-	
-	@Mock
-	private HttpServletResponse response;
-	
-	@Mock
-	private FilterChain filterChain;
+    @InjectMocks
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-	@Test
-	void testDoFilterInternalHttpServletRequestHttpServletResponseFilterChain() throws ServletException, IOException {
-		jwtAuthenticationFilter.doFilter(request, response, filterChain);
-	}
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Mock
+    private FilterChain filterChain;
+
+    @Test
+    void testDoFilterInternalHttpServletRequestHttpServletResponseFilterChain() throws ServletException, IOException {
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
+    }
 }
