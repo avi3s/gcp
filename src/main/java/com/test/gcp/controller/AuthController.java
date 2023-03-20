@@ -27,7 +27,15 @@ import com.test.gcp.service.EmployeeService;
 
 import jakarta.validation.Valid;
 
-@RestController @RequestMapping("/api/auth")
+/**
+ * The <code>AuthController</code> class is responsible for the Login and SignUp of the Admin Users
+ * 
+ * @author aviru
+ * @version 1.0
+ * @since 20.03.2023
+ */
+@RestController 
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private static final Logger logger = LogManager.getLogger(AuthController.class);
@@ -41,6 +49,13 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    /**
+     * This <code>loginAdmin</code> method is used to check the credentials of the Admin user.
+     * If success then returns back a valid JWT token
+     * Else throws 401 error code
+     * @param loginDto
+     * @return ResponseEntity<JWTAuthResponse>
+     */
     @PostMapping("/signin")
     public ResponseEntity<JWTAuthResponse> loginAdmin(@Valid @RequestBody final LoginDTO loginDto) {
 
@@ -55,6 +70,13 @@ public class AuthController {
         return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
+    /**
+     * This <code>registerAdmin</code> method is used to Register the Admin Users with certain validations of the input fields like email address
+     * If success then returns Admin registered successfully
+     * Else throws 401 error code
+     * @param signUpDto
+     * @return ResponseEntity<String>
+     */
     @PostMapping("/signup")
     public ResponseEntity<String> registerAdmin(@Valid @RequestBody final AdminDTO signUpDto) {
 

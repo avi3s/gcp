@@ -3,7 +3,6 @@ package com.test.gcp.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,10 +38,7 @@ class DepartmentServiceImplTest {
         JsonReader<DepartmentDTO> mapper = new JsonReader<DepartmentDTO>(DepartmentDTO.class);
         departmentDTO = (DepartmentDTO) mapper.loadTestJson("test-resources/department/department.json");
         departmentDTO2 = (DepartmentDTO) mapper.loadTestJson("test-resources/department/department2.json");
-        
-        departmentDTOs = new ArrayList<>();
-        departmentDTOs.add(departmentDTO2);
-        departmentDTOs.add(departmentDTO);
+        departmentDTOs = (List<DepartmentDTO>) mapper.loadTestJsonArray("test-resources/department/departments.json");
     }
 
     @Test
