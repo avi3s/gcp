@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.test.gcp.JsonResourceObjectMapper;
 import com.test.gcp.exception.ResourceNotFoundException;
 import com.test.gcp.payload.DepartmentDTO;
 import com.test.gcp.payload.EmployeeDTO;
@@ -36,15 +37,9 @@ class EmployeeServiceImplTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        employeeDTO = new EmployeeDTO();
-        employeeDTO.setEmployeeId("1");
-        employeeDTO.setName("Avirup");
-        employeeDTO.setDepartmentId("1");
-
-        employeeDTO2 = new EmployeeDTO();
-        employeeDTO2.setEmployeeId("2");
-        employeeDTO2.setName("Sumit");
-        employeeDTO2.setDepartmentId("2");
+        JsonResourceObjectMapper<EmployeeDTO> mapper = new JsonResourceObjectMapper<EmployeeDTO>(EmployeeDTO.class);
+        employeeDTO = (EmployeeDTO) mapper.loadTestJson("test-resources/employee/employee.json");
+        employeeDTO2 = (EmployeeDTO) mapper.loadTestJson("test-resources/employee/employee2.json");
 
         employeeDTOs = new ArrayList<>();
         employeeDTOs.add(employeeDTO2);
