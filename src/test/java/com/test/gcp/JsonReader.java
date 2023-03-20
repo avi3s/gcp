@@ -10,10 +10,10 @@ import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonResourceObjectMapper<T> {
+public class JsonReader<T> {
     private Class<T> model;
 
-    public JsonResourceObjectMapper(Class<T> model) {
+    public JsonReader(Class<T> model) {
         this.model = model;
     }
 

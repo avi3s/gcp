@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.test.gcp.JsonResourceObjectMapper;
+import com.test.gcp.JsonReader;
 import com.test.gcp.exception.ResourceNotFoundException;
 import com.test.gcp.payload.DepartmentDTO;
 import com.test.gcp.service.DepartmentService;
@@ -36,7 +36,7 @@ class DepartmentServiceImplTest {
     @BeforeEach
     void setUp() throws Exception {
         
-        JsonResourceObjectMapper<DepartmentDTO> mapper = new JsonResourceObjectMapper<DepartmentDTO>(DepartmentDTO.class);
+        JsonReader<DepartmentDTO> mapper = new JsonReader<DepartmentDTO>(DepartmentDTO.class);
         departmentDTO = (DepartmentDTO) mapper.loadTestJson("test-resources/department/department.json");
         departmentDTO2 = (DepartmentDTO) mapper.loadTestJson("test-resources/department/department2.json");
         
