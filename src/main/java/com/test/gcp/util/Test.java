@@ -57,7 +57,7 @@ public class Test {
             System.out.println("Key ==>> " + key);
             if (jsonObject.get(key) instanceof JSONObject) {
                 System.out.println("JSONObject");
-                JSONObject jsonObject2 = (JSONObject) jsonObject.get(key);
+                JSONObject jsonObject2 = parseObject((JSONObject) jsonObject.get(key));
                 jsonObject.put(key, jsonObject2.toString());
             } else if (jsonObject.get(key) instanceof JSONArray) {
                 System.out.println("JSONArray");
