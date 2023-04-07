@@ -1,0 +1,758 @@
+openapi: 3.0.2
+info:
+  version: 0.0.1
+  title: Customer Billing
+  description: This service domain provides a general customer billing service. The service domain is provided with the applicable fees and charges that are authorized for invoicing typically by a product or service fulfillment service domain. Processing can include verification and authorizations steps and the invoice could be issued as a single transaction or a schedule of transactions.
+servers: 
+  - url: https://api08.apigateway.dev.bdo.com.ph/corporate/v1
+    description: DEV environment
+  - url: https://api06.apigateway.sit.bdo.com.ph/corporate/v1
+    description: SIT environment
+  - url: https://api17.apigateway.uat.bdo.com.ph/corporate/v1
+    description: UAT environment
+  - url: https://api17.apigateway.bdo.com.ph/corporate/v1
+    description: PROD environment
+paths:
+  /Collections/Invoices/Initiate:
+    post:
+      tags:
+        - Invoices
+      summary: This endpoint will be used by client to create invoices that can be presented to their payors.
+      operationId: InitiateInvoices
+      parameters:
+        - $ref: '#/components/parameters/PayeeChannelId'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/AuthorizationString'
+        - $ref: '#/components/parameters/x-customer-user-agent'
+      requestBody:
+        $ref: '#/components/requestBodies/InitiateInvoiceRequest'
+      responses:
+        200:
+          description: Success
+          headers:
+            x-fapi-interaction-id:
+              description: An RFC4122 UID used as a correlation id.
+              required: true
+              schema:
+                type: string
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/InitiateInvoiceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiateInvoiceResponse'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/InitiateInvoiceResponse' 
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        405:
+          $ref: '#/components/responses/MethodNotAllowedError'
+        406:
+          $ref: '#/components/responses/NotAcceptableError'
+        422:
+          $ref: '#/components/responses/UnprocessableEntityError'
+        429:
+          $ref: '#/components/responses/TooManyRequestsError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /Collections/Invoices/Update:
+    put:
+      tags:
+        - Invoices
+      summary: This endpoint will be used by client to amend, cancel or write off invoices that can be presented to their payors.
+      operationId: UpdateInvoices
+      parameters:
+        - $ref: '#/components/parameters/InvoiceId'
+        - $ref: '#/components/parameters/InvoiceIndicator'
+        - $ref: '#/components/parameters/PayeeChannelId'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/AuthorizationString'
+        - $ref: '#/components/parameters/x-customer-user-agent'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateInvoiceRequest'
+      responses:
+        200:
+          description: Invoice Action
+          headers:
+            x-fapi-interaction-id:
+              description: An RFC4122 UID used as a correlation id.
+              required: true
+              schema:
+                type: string
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceResponse'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceResponse' 
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
+        405:
+          $ref: '#/components/responses/MethodNotAllowedError'
+        406:
+          $ref: '#/components/responses/NotAcceptableError'
+        422:
+          $ref: '#/components/responses/UnprocessableEntityError'
+        429:
+          $ref: '#/components/responses/TooManyRequestsError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    x-fapi-auth-date:
+      in: header
+      name: x-fapi-auth-date
+      required: false
+      description: |-
+        The time when the PSU last logged in with the TPP. 
+        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
+        Sun, 10 Sep 2017 19:43:31 UTC
+      schema:
+        type: string
+        pattern: ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$
+    x-fapi-customer-ip-address:
+      in: header
+      name: x-fapi-customer-ip-address
+      required: false
+      description: The PSU's IP address if the PSU is currently logged in with the TPP.
+      schema:
+        type: string
+    x-fapi-interaction-id:
+      in: header
+      name: x-fapi-interaction-id
+      required: false
+      description: An RFC4122 UID used as a correlation id.
+      schema:
+        type: string
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+      schema:
+        type: string
+    AuthorizationString:
+      in: header
+      name: AuthorizationString
+      description: Is a string needed to authorize call to back end system.
+      schema:
+        type: string
+    x-customer-user-agent:
+      in: header
+      name: x-customer-user-agent
+      description: Indicates the user-agent that the PSU is using.
+      required: false
+      schema:
+        type: string
+    InvoiceId:
+      in: header
+      name: InvoiceId
+      required: true
+      description: Indicates the invoice to ammend, cancel or write off.
+      schema:
+        type: string
+    InvoiceIndicator:
+      in: header
+      name: InvoiceIndicator
+      required: true
+      description: Indicates the invoice action type; amend, cancel or write off.
+      schema:
+        type: string
+    PayeeChannelId:
+      in: header
+      name: PayeeChannelId
+      required: true
+      description: The id which uniquely identifies the customer that interacts with the bank. 
+      schema:
+        type: string
+  requestBodies:
+    InitiateInvoiceRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InitiateInvoiceRequest'
+    UpdateInvoiceRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateInvoiceRequest'  
+  responses:   
+    BadRequestError:
+      description: Bad request
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Unauthorized
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+    ForbiddenError:
+      description: Forbidden
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotfoundError:
+      description: Not found
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+    MethodNotAllowedError:
+      description: Method Not Allowed
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+    NotAcceptableError:
+      description: Not Acceptable
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+    UnprocessableEntityError:
+      description: The server understands the content type of the request entity, but it was unable to process the contained instructions
+      headers:
+        Retry-After:
+          description: Number in seconds to wait
+          schema:
+            type: integer
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequestsError:
+      description: Too Many Requests
+      headers:
+        Retry-After:
+          description: Number in seconds to wait
+          schema:
+            type: integer
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+    InternalServerError:
+      description: Internal Server Error
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    InitiateInvoiceRequest:
+      type: object
+      required:
+        - InvoiceRequest
+      properties:
+        InvoiceRequest:
+          type: array
+          items:
+           $ref: '#/components/schemas/InvoiceRequest'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+      additionalProperties: false
+    UpdateInvoiceRequest:
+      type: object
+      required:
+        - InvoiceRequest
+      properties:
+        InvoiceRequest:
+          type: array
+          items:
+           $ref: '#/components/schemas/InvoiceRequest'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+      additionalProperties: false
+    InvoiceRequest:
+      type: object
+      properties:
+        PayeeChannelReference:
+          type: string
+          description: channel reference number for a customer
+          minLength: 1
+          maxLength: 35
+        PayeeBankReference:
+          type: string
+          description: It identifies the bank details of payee
+          minLength: 1
+          maxLength: 15
+        BankBranchOrLocationReference:
+          type: string
+          description: The number which identifies the branch (or location) of the bank
+          minLength: 1
+          maxLength: 20
+        RequestDate: 
+          type: string
+          description: The date which is requested for initiating the invoice
+          minLength: 1
+          maxLength: 10
+        RequestTime:
+          type: string
+          description: The time which is requested for initiating the invoice
+          minLength: 1
+          maxLength: 10
+        PayeeUserId:
+          type: string
+          description: It is a unique identifier, which identifies the corporate customer User.
+          minLength: 1
+          maxLength: 20
+        Payload:
+          $ref: '#/components/schemas/Payload' 
+    InvoiceResponse:
+      type: object
+      properties:
+        PayeeChannelReferenceNumber:
+          type: string
+          description: The number which identifies primary details of the company
+        PayeeBankReference:
+          type: string
+          description: It specifies the bank details of payer
+        RequestNumber: 
+          type: string
+          description: The response will be sent by CNR to the initiating channel
+        RequestDate: 
+          type: string
+          description: The date which is requested for initiating the invoice
+        RequestTime:
+          type: string
+          description: The time which is requested for initiating the invoice
+        BankReference:
+          type: string
+          description: The reference which identifies bank
+        BankIdentification:
+          type: string
+          description: It indicates to identifies bank code
+        BranchIdentification:
+          type: string
+          description: It indicates to identifies branch
+        PayeeUserId:
+          type: string
+          description: It is a unique identifier, which identifies the corporate customer
+        Status:
+          type: string
+          description: It indicates the invoice status
+        ErrorCode: 
+          type: string
+          description: It unique to code to identify the type of error 
+        ErrorMessage: 
+          type: string
+          description: When the authorizer rejects a payment in the bank portal but does not enter the reason for rejection.
+        Payload:
+          $ref: '#/components/schemas/PayloadForInvoiceResponse'
+    InitiateInvoiceResponse:
+      type: object
+      required:
+        - InvoiceResponse
+      properties:
+        InvoiceResponse:
+          type: array
+          items:
+           $ref: '#/components/schemas/InvoiceResponse'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+      additionalProperties: false   
+    UpdateInvoiceResponse:
+      type: object
+      required:
+        - UpdateInvoiceResponse
+      properties:
+        UpdateInvoiceResponse:
+          type: array
+          items:
+           $ref: '#/components/schemas/InvoiceResponse'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+      additionalProperties: false    
+    PayloadForInvoiceResponse:
+      description: It integrate payments and automate invoicing for any business
+      type: object
+      required:
+        - payload
+      properties:         
+        BankBranchOrLocationReference:
+          type: string
+          description: The number which identifies the branch (or location) of the bank
+          minLength: 1
+          maxLength: 35
+    Payload:
+      type: object
+      required:
+        - payload
+      properties: 
+        PayeeActionBy: 
+          type: string
+          description: It is a unique identifier, which identifies the type of action based on the invoice indicator
+          minLength: 1
+          maxLength: 10        
+        PayeeID: 
+          type: string
+          description: It is a unique identifier, which identifies the corporate customer
+          minLength: 1
+          maxLength: 35
+        PayeeProductCode:
+          type: string
+          description: It is a unique identifier, assigned to each  product which is ready, to be marketed or for sale
+          minLength: 1
+          maxLength: 10
+        PayeeBatchReference:
+          type: string
+          description: Tag a unique serial number to each of the product and identify the source.
+          minLength: 1
+          maxLength: 35
+        PayeeBatchReferenceDate:
+          type: string
+          description: It specifies the date to each of the product
+          minLength: 1
+          maxLength: 10
+        Invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoices'                       
+    Invoices:
+      type: object
+      required:
+        - payer
+      properties:
+            Payer:
+              $ref: '#/components/schemas/Payer' 
+            PayeeProductInstanceReference: 
+              type: string
+              description: The product currently marketed and sold under the  brand identified as a source of Product information
+              minLength: 1
+              maxLength: 10
+            PayeeInvoiceReference: 
+              type: string
+              description: It is unique number and will represents the invoice number
+              minLength: 1
+              maxLength: 10           
+            PayeeInvoiceDate: 
+              type: string
+              description: The invoice date represents the time-stamped time and date on which the goods have been billed and the transaction officially recorded.
+              minLength: 1
+              maxLength: 10
+            PayeeInvoiceDueDate: 
+              type: string
+              description: The date on which a  invoice is scheduled to be received by the nominee.
+              minLength: 1
+              maxLength: 10
+            CurrencyCode:  
+              type: string
+              description: It indicates the currency type and initiating party needs to identify which currency needs to be used for settlement on the account 
+              minLength: 1
+              maxLength: 3
+            PayeeInvoiceAmount: 
+              type: string
+              description: It indicates the payment to bill their customers for their purchases. 
+              minLength: 1
+              maxLength: 20
+            TradeDiscountAmount: 
+              type: string
+              description: It specifies discount amount in invoice payment
+              minLength: 1
+              maxLength: 20
+            TaxAmount: 
+              type: string
+              description: The tax amount on total invoice amount
+              minLength: 1
+              maxLength: 20
+            PayeeInvoiceDocumentURL: 
+              type: string
+              description: The link which refers to upload all necessary documents relating to invoice initiation
+            Message:
+              type: string
+              description: A person (or an enterprise) concerning  by consent
+              minLength: 1
+              maxLength: 35
+            PayeeAddress: 
+              type: string
+              description: It indicates postal address of a payer
+              minLength: 1
+              maxLength: 35
+            EarlyPaymentDiscount:
+              $ref: '#/components/schemas/EarlyPaymentDiscount' 
+            LatePaymentPenalty:
+              $ref: '#/components/schemas/LatePaymentPenalty'          
+            AdditionalInformation:
+              $ref: '#/components/schemas/AdditionalInformation' 
+    Payer:
+      type: object
+      properties:
+        PayerId:
+          type: string
+          description: It is a unique  identification of a payer
+          minLength: 1
+          maxLength: 35
+        PayerAccountReference:
+              type: string
+              description: A reference number helps an  identify transactions in Account
+              minLength: 1
+              maxLength: 10
+        PayerBankReference:
+          type: string
+          description: It specifies the bank details of payer
+          minLength: 1
+          maxLength: 10
+        PayerAccountType:
+          type: string
+          description: Specifies the type of account (personal or business).
+          minLength: 1
+          maxLength: 10
+        PayerInvoiceTotalPayment: 
+              type: string
+              description: Total Invoice Amount of Payer
+              minLength: 1
+              maxLength: 20
+        PayerAgreementReference: 
+          type: string
+          description: It refers the agreement between the payer and payee 
+          minLength: 1
+          maxLength: 10
+    LatePaymentPenalty:
+      type: object
+      properties:
+        GracePeriod: 
+           type: string
+           description: The unit of period (days, weeks, months etc.) for paying money with penalty
+           minLength: 1
+           maxLength: 5
+        PenaltyAmount: 
+           type: string
+           description: The amount which specified as penalty        
+           minLength: 1
+           maxLength: 20
+    EarlyPaymentDiscount:
+      type: object
+      properties:
+        EarlyPaymentDays: 
+           type: string
+           description: An Early Payment  specified in number of calendar days
+           minLength: 1
+           maxLength: 5
+        EarlyDiscountAmount: 
+           type: string
+           description: It indicates discount in Early Amount
+           minLength: 1
+           maxLength: 20
+    AdditionalInformation:
+      type: object
+      properties: 
+        SupplementaryData:
+          type: object
+        required:
+          description: Additional information that can not be captured in the structured fields and/or any other specific block.
+          properties:
+            Message:
+              description: Remarks of customer related to the transaction.
+              type: string
+    Links:
+      type: object
+      description: Links relevant to the payload
+      properties:
+        Self:
+          type: string
+          format: uri
+        First:
+          type: string
+          format: uri
+        Prev:
+          type: string
+          format: uri
+        Next:
+          type: string
+          format: uri
+        Last:
+          type: string
+          format: uri
+      additionalProperties: false
+      required:
+        - Self
+    Meta:
+      title: MetaData
+      type: object
+      description: Meta Data relevant to the payload
+      properties:
+        TotalPages:
+          type: integer
+          format: int32
+        FirstAvailableDateTime:
+          $ref: '#/components/schemas/ISODateTime'
+        LastAvailableDateTime:
+          $ref: '#/components/schemas/ISODateTime'
+      additionalProperties: false
+    ISODateTime:
+      description: |-
+        All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+        All date-time fields in responses must include the timezone. An example is below:
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
+    ErrorResponse:
+      description: An array of detail error codes, and messages, and URLs to documentation to help remediation.
+      type: object
+      properties:
+        Code:
+          description: High level textual error code, to help categorize the errors.
+          type: string
+          minLength: 1
+          maxLength: 40
+        Id:
+          description: A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.
+          type: string
+          minLength: 1
+          maxLength: 40
+        Message:
+          description: Brief Error message, e.g., 'There is something wrong with the request parameters provided'
+          type: string
+          minLength: 1
+          maxLength: 500
+        Errors:
+          items:
+            $ref: '#/components/schemas/Error'
+          type: array
+          minItems: 1
+      required:
+        - Code
+        - Message
+        - Errors
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        ErrorCode:
+          description: Low level textual error code, e.g., UK.OBIE.Field.Missing
+          type: string
+          x-namespaced-enum:
+            - UK.OBIE.Field.Expected
+            - UK.OBIE.Field.Invalid
+            - UK.OBIE.Field.InvalidDate
+            - UK.OBIE.Field.Missing
+            - UK.OBIE.Field.Unexpected
+            - UK.OBIE.Header.Invalid
+            - UK.OBIE.Header.Missing
+            - UK.OBIE.Reauthenticate
+            - UK.OBIE.Resource.ConsentMismatch
+            - UK.OBIE.Resource.InvalidConsentStatus
+            - UK.OBIE.Resource.InvalidFormat
+            - UK.OBIE.Resource.NotFound
+            - UK.OBIE.Rules.AfterCutOffDateTime
+            - UK.OBIE.Rules.DuplicateReference
+            - UK.OBIE.Signature.Invalid
+            - UK.OBIE.Signature.InvalidClaim
+            - UK.OBIE.Signature.Malformed
+            - UK.OBIE.Signature.Missing
+            - UK.OBIE.Signature.MissingClaim
+            - UK.OBIE.Signature.Unexpected
+            - UK.OBIE.UnexpectedError
+            - UK.OBIE.Unsupported.AccountIdentifier
+            - UK.OBIE.Unsupported.AccountSecondaryIdentifier
+            - UK.OBIE.Unsupported.Currency
+            - UK.OBIE.Unsupported.Frequency
+            - UK.OBIE.Unsupported.LocalInstrument
+            - UK.OBIE.Unsupported.Scheme
+        Message:
+          description: |-
+            A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'
+            OBIE doesn't standardise this field
+          type: string
+          minLength: 1
+          maxLength: 500
+        Path:
+          description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+          type: string
+          minLength: 1
+          maxLength: 500
+        Url:
+          description: URL to help remediate the problem, or provide more information, or to API Reference, or help etc
+          type: string
+      required:
+        - ErrorCode
+        - Message
+      additionalProperties: false
+      minProperties: 1
