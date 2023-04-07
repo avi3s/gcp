@@ -1,0 +1,897 @@
+{
+	"info": {
+		"_postman_id": "adfc5a44-81c0-4572-9bf7-13a01e95d753",
+		"name": "GCP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1391042"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/auth/add-student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"auth",
+						"add-student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp APIGEE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Abhishek\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"abhishek@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://34.160.99.221.nip.io/signup/?apikey=DCMkKhTfrjX20q6FdkA4zY0GGOKeHPTciLuBKtSDOQdzQEMw",
+					"protocol": "https",
+					"host": [
+						"34",
+						"160",
+						"99",
+						"221",
+						"nip",
+						"io"
+					],
+					"path": [
+						"signup",
+						""
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "DCMkKhTfrjX20q6FdkA4zY0GGOKeHPTciLuBKtSDOQdzQEMw"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SignUp APIGEE",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Abhishek\",\r\n  \"password\": \"@password#\",\r\n  \"email\": \"abhishek@gmail.com\",\r\n  \"address\": \"1442 Nayabad.Kolkata-700099\",\r\n  \"roles\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://34.160.99.221.nip.io/signup",
+							"protocol": "https",
+							"host": [
+								"34",
+								"160",
+								"99",
+								"221",
+								"nip",
+								"io"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "0"
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "expires",
+							"value": "0"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "DENY"
+						},
+						{
+							"key": "content-type",
+							"value": "text/plain;charset=UTF-8"
+						},
+						{
+							"key": "content-length",
+							"value": "28"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Mar 2023 15:25:55 GMT"
+						},
+						{
+							"key": "x-request-id",
+							"value": "197945d9-7f11-4483-b6b9-c909a554c51b"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "User registered successfully"
+				}
+			]
+		},
+		{
+			"name": "SignIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn APIGEE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"abhishek@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://34.160.99.221.nip.io/signin",
+					"protocol": "https",
+					"host": [
+						"34",
+						"160",
+						"99",
+						"221",
+						"nip",
+						"io"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SignIn APIGEE",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"abhishek@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://34.160.99.221.nip.io/signin",
+							"protocol": "https",
+							"host": [
+								"34",
+								"160",
+								"99",
+								"221",
+								"nip",
+								"io"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "0"
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "expires",
+							"value": "0"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "DENY"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Mar 2023 15:26:10 GMT"
+						},
+						{
+							"key": "x-request-id",
+							"value": "c6876a76-76ad-4a83-952c-45d941214edc"
+						},
+						{
+							"key": "transfer-encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpc2hla0BnbWFpbC5jb20iLCJpYXQiOjE2NzgxMTYzNzAsImV4cCI6MTY3ODcyMTE3MH0.ptE86pG1CAbThRvMeD1rIdcZW1PSOXsa_h7E8-DKztdkME9-9JfFUQbAA4TUZKroePIQoia3HQw68XqsdW3Rxg\",\n    \"tokenType\": \"Bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee APIGEE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODExNTAxMywiZXhwIjoxNjc4NzE5ODEzfQ.43wMNtPVS7DSfUpXnviup98-nYsOv1_Tns9wuwS4_9ljXIqmGm54L8BTboDi5z7EEzIYGPXjdlkNo7VGdwwlbw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Abhishek\",\r\n  \"email\": \"abhishek@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://34.160.99.221.nip.io/add-employee",
+					"protocol": "https",
+					"host": [
+						"34",
+						"160",
+						"99",
+						"221",
+						"nip",
+						"io"
+					],
+					"path": [
+						"add-employee"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Employee APIGEE",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Abhishek\",\r\n  \"email\": \"abhishek@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700099\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://34.160.99.221.nip.io/add-employee",
+							"protocol": "https",
+							"host": [
+								"34",
+								"160",
+								"99",
+								"221",
+								"nip",
+								"io"
+							],
+							"path": [
+								"add-employee"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "0"
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "expires",
+							"value": "0"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "DENY"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Mar 2023 15:35:46 GMT"
+						},
+						{
+							"key": "x-request-id",
+							"value": "74ce2107-929f-495e-80df-7a0abee237b1"
+						},
+						{
+							"key": "transfer-encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"employeeId\": \"2\",\n    \"name\": \"Abhishek\",\n    \"email\": \"abhishek@gmail.com\",\n    \"address\": \"1442 Nayabad. Kolkata-700099\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Fetch All Employees",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch All Employees APIGEE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpc2hla0BnbWFpbC5jb20iLCJpYXQiOjE2NzgxMTYzNzAsImV4cCI6MTY3ODcyMTE3MH0.ptE86pG1CAbThRvMeD1rIdcZW1PSOXsa_h7E8-DKztdkME9-9JfFUQbAA4TUZKroePIQoia3HQw68XqsdW3Rxg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://34.160.99.221.nip.io/get-all-employee",
+					"protocol": "https",
+					"host": [
+						"34",
+						"160",
+						"99",
+						"221",
+						"nip",
+						"io"
+					],
+					"path": [
+						"get-all-employee"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Fetch All Employees APIGEE",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://34.160.99.221.nip.io/get-all-employee",
+							"protocol": "https",
+							"host": [
+								"34",
+								"160",
+								"99",
+								"221",
+								"nip",
+								"io"
+							],
+							"path": [
+								"get-all-employee"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "0"
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "expires",
+							"value": "0"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "DENY"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Mar 2023 15:39:07 GMT"
+						},
+						{
+							"key": "x-request-id",
+							"value": "60fe4f7e-16bd-471e-a102-0f96118f591b"
+						},
+						{
+							"key": "transfer-encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"employeeId\": \"1\",\n        \"name\": \"Avirup Pal\",\n        \"email\": \"avirup.pal@gmail.com\",\n        \"address\": \"1442 Nayabad. Kolkata-700099\"\n    },\n    {\n        \"employeeId\": \"2\",\n        \"name\": \"Abhishek\",\n        \"email\": \"abhishek@gmail.com\",\n        \"address\": \"1442 Nayabad. Kolkata-700099\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Fetch Employee By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Employee By ID APIGEE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://34.160.99.221.nip.io/get-employee-byid/1",
+					"protocol": "https",
+					"host": [
+						"34",
+						"160",
+						"99",
+						"221",
+						"nip",
+						"io"
+					],
+					"path": [
+						"get-employee-byid",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"@password#\",\r\n  \"email\": \"avirup.pal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee APIGEE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700199\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee APIGEE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdmlydXAucGFsQGdtYWlsLmNvbSIsImlhdCI6MTY3ODAyNzk4OSwiZXhwIjoxNjc4NjMyNzg5fQ.bIbPaFmL56tH0MXenXrpAISSvSLEhtL5cvFliqdV1CiYE3hDCrwTuxM9ceLZWQ_7GqQ1R_wzEr9gDLSXWW-_aQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Avirup Pal\",\r\n  \"email\": \"avirup.pal@gmail.com\",\r\n  \"address\": \"1442 Nayabad. Kolkata-700199\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

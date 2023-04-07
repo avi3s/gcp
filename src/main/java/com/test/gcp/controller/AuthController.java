@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +24,11 @@ import com.test.gcp.exception.ResourceFoundException;
 import com.test.gcp.payload.AdminDTO;
 import com.test.gcp.payload.JWTAuthResponse;
 import com.test.gcp.payload.LoginDTO;
+import com.test.gcp.payload.StudentDTO;
+import com.test.gcp.payload.TeacherDTO;
 import com.test.gcp.security.JwtTokenProvider;
 import com.test.gcp.service.EmployeeService;
+import com.test.gcp.util.CustomValidator;
 
 import jakarta.validation.Valid;
 
@@ -40,6 +45,9 @@ public class AuthController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private CustomValidator customValidator;
 
     @PostMapping("/signin")
     public ResponseEntity<JWTAuthResponse> loginAdmin(@Valid @RequestBody final LoginDTO loginDto) {
@@ -72,5 +80,30 @@ public class AuthController {
         logger.log(Level.INFO, () -> "registerAdmin method ends ===>>> " + signUpDto);
 
         return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add-student")
+    public ResponseEntity<String> addStudent(@Valid @RequestBody final StudentDTO studentDTO) {
+
+        logger.log(Level.INFO, () -> "addStudent method starts ===>>> " + studentDTO);
+
+        logger.log(Level.INFO, () -> "addStudent method ends ===>>> " + studentDTO);
+
+        return new ResponseEntity<>("Student registered successfully", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add-teacher")
+    public ResponseEntity<String> addTeacher(@Valid @RequestBody final TeacherDTO teacherDTO) {
+
+        logger.log(Level.INFO, () -> "addTeacher method starts ===>>> " + teacherDTO);
+
+        logger.log(Level.INFO, () -> "addTeacher method ends ===>>> " + teacherDTO);
+
+        return new ResponseEntity<>("Teacher registered successfully", HttpStatus.CREATED);
+    }
+
+    @InitBinder
+    protected void initBinder(final WebDataBinder binder) {
+        binder.addValidators(customValidator);
     }
 }

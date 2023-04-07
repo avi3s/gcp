@@ -43,13 +43,14 @@ class JwtTokenProviderTest {
 
     @Test
     void testGetUsernameFromJWT() {
-        String result = jwtTokenProvider.getUsernameFromJWT(token);
+        when(authentication.getName()).thenReturn("avirup.pal@gmail.com");
+        String result = jwtTokenProvider.getUsernameFromJWT(jwtTokenProvider.generateToken(authentication));
         assertEquals("avirup.pal@gmail.com", result);
     }
 
     @Test
     void testValidateToken() {
-        boolean result = jwtTokenProvider.validateToken(token);
+        boolean result = jwtTokenProvider.validateToken(jwtTokenProvider.generateToken(authentication));
         assertTrue(result);
     }
 

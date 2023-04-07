@@ -104,6 +104,11 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20230227</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -120,79 +125,28 @@
 						</goals>
 						<configuration>
 							<generatorName>spring</generatorName>
-							<inputSpec>${basedir}/CustomerBilling.yaml</inputSpec>
+							<inputSpec>${basedir}/contract.yaml</inputSpec>
 							<apiPackage>com.test.gcp.controller</apiPackage>
 							<modelPackage>com.test.gcp.model</modelPackage>
 							<configOptions>
 								<useSpringBoot3>true</useSpringBoot3>
 								<interfaceOnly>true</interfaceOnly>
 								<useBeanValidation>true</useBeanValidation>
-<!--								<performBeanValidation>true</performBeanValidation>-->
 								<modelPackage>com.test.gcp.model</modelPackage>
 								<apiPackage>com.test.gcp.controller</apiPackage>
 								<serializableModel>true</serializableModel>
 							</configOptions>
 						</configuration>
 					</execution>
-					<!--					<execution>-->
-					<!--						<id>openapi-client</id>-->
-					<!--						<phase>generate-sources</phase>-->
-					<!--						<goals>-->
-					<!--							<goal>generate</goal>-->
-					<!--						</goals>-->
-					<!--						<configuration>-->
-					<!--							<generatorName>java</generatorName>-->
-					<!--							<inputSpec>${basedir}/contract.yaml</inputSpec>-->
-					<!--							<apiPackage>com.test.gcp.controller</apiPackage>-->
-					<!--							<modelPackage>com.test.gcp.model</modelPackage>-->
-					<!--							<configOptions>-->
-					<!--								<useJakartaEe>true</useJakartaEe>-->
-					<!--								<library>resttemplate</library>-->
-					<!--								<useBeanValidation>true</useBeanValidation>-->
-					<!--								<performBeanValidation>true</performBeanValidation>-->
-					<!--							</configOptions>-->
-					<!--						</configuration>-->
-					<!--					</execution>-->
 				</executions>
 			</plugin>
-			<!--			<plugin>-->
-			<!--				<groupId>org.openapitools</groupId>-->
-			<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
-			<!--				<version>6.4.0</version>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<goals>-->
-			<!--							<goal>generate</goal>-->
-			<!--						</goals>-->
-			<!--						<id>buildApi</id>-->
-			<!--						<configuration>-->
-			<!--							<configOptions>-->
-			<!--								<useSpringBoot3>true</useSpringBoot3>-->
-			<!--								<useJakartaEe>true</useJakartaEe>-->
-			<!--							</configOptions>-->
-			<!--							<inputSpec>${basedir}/contract.yaml</inputSpec>-->
-			<!--							<generatorName>spring</generatorName>-->
-			<!--							<library>spring-boot</library>-->
-			<!--							<generateApis>true</generateApis>-->
-			<!--							<generateModels>true</generateModels>-->
-			<!--							<configOptions>-->
-			<!--								<interfaceOnly>true</interfaceOnly>-->
-			<!--								<useBeanValidation>true</useBeanValidation>-->
-			<!--								<performBeanValidation>true</performBeanValidation>-->
-			<!--								<modelPackage>com.test.gcp.model</modelPackage>-->
-			<!--								<apiPackage>com.test.gcp.controller</apiPackage>-->
-			<!--								<serializableModel>true</serializableModel>-->
-			<!--							</configOptions>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
 					<configLocation>checkstyle.xml</configLocation>
+					<sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
 				</configuration>
 				<executions>
 					<execution>
