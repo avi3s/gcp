@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.test.gcp.payload.ErrorDetails;
+import com.test.gcp.util.ErrorCodeMapping;
 
 import lombok.Generated;
 
 @RestControllerAdvice @Generated
 public class GlobalExceptionHandler {
 
+    @Autowired
+    private ErrorCodeMapping errorCodeMapping;
+    
     @ResponseStatus(HttpStatus.NOT_FOUND) @ExceptionHandler(ResourceNotFoundException.class)
     public ErrorDetails handleResourceNotFoundException(final ResourceNotFoundException exception) {
 
@@ -52,6 +57,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST) @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErrorDetails> handleValidationExceptions(final MethodArgumentNotValidException ex) {
 
+        System.out.println("Error Code From Properties File ==>> " +errorCodeMapping.getErrorCodes());
         List<ErrorDetails> errorDetails = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             ErrorDetails errorDetail = new ErrorDetails();

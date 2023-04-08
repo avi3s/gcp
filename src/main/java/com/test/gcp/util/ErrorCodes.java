@@ -6,7 +6,6 @@ import java.util.Map;
 public enum ErrorCodes {
 
     INVALID_INPUT("INVALID_INPUT"), VALIDATE_MISSING_STUDENT_NAME("VALIDATE_MISSING_STUDENT_NAME"), VALIDATE_MISSING_TEACHER_NAME("VALIDATE_MISSING_TEACHER_NAME");
-
     private static final Map<String, ErrorCodes> ERROR_MAP = new HashMap<>();
 
     static {
