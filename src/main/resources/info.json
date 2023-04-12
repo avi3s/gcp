@@ -1,0 +1,12 @@
+{
+  "SOME-KEY1": {
+    "key": "lul-java-examples",
+    "linkText": "My Examples",
+    "url": "/java/somenewurl/"
+  },
+  "SOME-KEY2": {
+    "key": "lul-java-examples",
+    "linkText": "My Examples",
+    "url": "/java/somenewurl/"
+  }
+}

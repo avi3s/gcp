@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.test.gcp.payload.ErrorDetails;
+import com.test.gcp.payload.ErrorPojo;
+import com.test.gcp.payload.Info;
 import com.test.gcp.util.ErrorCodeMapping;
 
 import lombok.Generated;
@@ -25,7 +27,10 @@ import lombok.Generated;
 public class GlobalExceptionHandler {
 
     @Autowired
-    private ErrorCodeMapping errorCodeMapping;
+    private List<ErrorPojo> errors;
+    
+    @Autowired
+    private Map<String, Info> infos;
     
     @ResponseStatus(HttpStatus.NOT_FOUND) @ExceptionHandler(ResourceNotFoundException.class)
     public ErrorDetails handleResourceNotFoundException(final ResourceNotFoundException exception) {
@@ -57,7 +62,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST) @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErrorDetails> handleValidationExceptions(final MethodArgumentNotValidException ex) {
 
-        System.out.println("Error Code From Properties File ==>> " +errorCodeMapping.getErrorCodes());
+//        System.out.println("Error Code From Properties File ==>> " +errorCodeMapping.getErrorCodes());
         List<ErrorDetails> errorDetails = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             ErrorDetails errorDetail = new ErrorDetails();
